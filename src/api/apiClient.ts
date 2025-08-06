@@ -1,10 +1,14 @@
+import type { Result } from "#/api";
+import { ResultStuts } from "#/enum";
 import { GLOBAL_CONFIG } from "@/global-config";
 import { t } from "@/locales/i18n";
 import userStore from "@/store/userStore";
-import axios, { type AxiosRequestConfig, type AxiosError, type AxiosResponse } from "axios";
+import axios, {
+	type AxiosError,
+	type AxiosRequestConfig,
+	type AxiosResponse,
+} from "axios";
 import { toast } from "sonner";
-import type { Result } from "#/api";
-import { ResultStuts } from "#/enum";
 
 const axiosInstance = axios.create({
 	baseURL: GLOBAL_CONFIG.apiBaseUrl,
@@ -14,7 +18,8 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
 	(config) => {
-		config.headers.Authorization = "Bearer Token";
+		const { accessToken } = userStore.getState().userToken;
+		config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : "";
 		return config;
 	},
 	(error) => Promise.reject(error),
@@ -31,7 +36,8 @@ axiosInstance.interceptors.response.use(
 	},
 	(error: AxiosError<Result>) => {
 		const { response, message } = error || {};
-		const errMsg = response?.data?.message || message || t("sys.api.errorMessage");
+		const errMsg =
+			response?.data?.message || message || t("sys.api.errorMessage");
 		toast.error(errMsg, { position: "top-center" });
 		if (response?.status === 401) {
 			userStore.getState().actions.clearUserInfoAndToken();
