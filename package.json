@@ -71,7 +71,6 @@
 		"zustand": "^4.5.5"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
 		"@commitlint/cli": "^17.8.1",
 		"@commitlint/config-conventional": "^17.8.1",
 		"@faker-js/faker": "^8.4.1",
@@ -96,9 +95,13 @@
 	},
 	"packageManager": "pnpm@10.8.0",
 	"msw": {
-		"workerDirectory": ["public"]
+		"workerDirectory": [
+			"public"
+		]
 	},
 	"commitlint": {
-		"extends": ["@commitlint/config-conventional"]
+		"extends": [
+			"@commitlint/config-conventional"
+		]
 	}
 }

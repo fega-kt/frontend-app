@@ -3,10 +3,20 @@ import { ResultStatus } from "@/types/enum";
 import { convertFlatToTree } from "@/utils/tree";
 import { faker } from "@faker-js/faker";
 import { http, HttpResponse } from "msw";
-import { DB_MENU, DB_PERMISSION, DB_ROLE, DB_ROLE_PERMISSION, DB_USER, DB_USER_ROLE } from "../assets_backup";
+import {
+	DB_MENU,
+	DB_PERMISSION,
+	DB_ROLE,
+	DB_ROLE_PERMISSION,
+	DB_USER,
+	DB_USER_ROLE,
+} from "../assets_backup";
 
 const signIn = http.post(`/api${UserApi.SignIn}`, async ({ request }) => {
-	const { username, password } = (await request.json()) as Record<string, string>;
+	const { username, password } = (await request.json()) as Record<
+		string,
+		string
+	>;
 
 	const user = DB_USER.find((item) => item.username === username);
 
@@ -20,12 +30,14 @@ const signIn = http.post(`/api${UserApi.SignIn}`, async ({ request }) => {
 	const { password: _, ...userWithoutPassword } = user;
 
 	// user role
-	const roles = DB_USER_ROLE.filter((item) => item.userId === user.id).map((item) =>
-		DB_ROLE.find((role) => role.id === item.roleId),
+	const roles = DB_USER_ROLE.filter((item) => item.userId === user.id).map(
+		(item) => DB_ROLE.find((role) => role.id === item.roleId),
 	);
 
 	// user permissions
-	const permissions = DB_ROLE_PERMISSION.filter((item) => roles.some((role) => role?.id === item.roleId)).map((item) =>
+	const permissions = DB_ROLE_PERMISSION.filter((item) =>
+		roles.some((role) => role?.id === item.roleId),
+	).map((item) =>
 		DB_PERMISSION.find((permission) => permission.id === item.permissionId),
 	);
 

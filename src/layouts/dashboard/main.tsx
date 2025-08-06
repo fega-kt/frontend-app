@@ -1,12 +1,14 @@
+import userService from "@/api/services/userService";
 import { AuthGuard } from "@/components/auth/auth-guard";
 import { LineLoading } from "@/components/loading";
 import { GLOBAL_CONFIG } from "@/global-config";
 import Page403 from "@/pages/sys/error/Page403";
 import { useSettings } from "@/store/settingStore";
+import { useUserToken } from "@/store/userStore";
 import { cn } from "@/utils";
 import { flattenTrees } from "@/utils/tree";
 import { clone, concat } from "ramda";
-import { Suspense } from "react";
+import { Suspense, useCallback, useEffect } from "react";
 import { Outlet, ScrollRestoration, useLocation } from "react-router";
 import { backendNavData } from "./nav/nav-data/nav-data-backend";
 import { frontendNavData } from "./nav/nav-data/nav-data-frontend";
@@ -21,7 +23,10 @@ function findAuthByPath(path: string): string[] {
 	return foundItem?.auth || [];
 }
 
-const navData = GLOBAL_CONFIG.routerMode === "frontend" ? clone(frontendNavData) : backendNavData;
+const navData =
+	GLOBAL_CONFIG.routerMode === "frontend"
+		? clone(frontendNavData)
+		: backendNavData;
 const allItems = navData.reduce((acc: any[], group) => {
 	const flattenedItems = flattenTrees(group.items);
 	return concat(acc, flattenedItems);
@@ -29,9 +34,24 @@ const allItems = navData.reduce((acc: any[], group) => {
 
 const Main = () => {
 	const { themeStretch } = useSettings();
+	const { accessToken } = useUserToken();
 
 	const { pathname } = useLocation();
 	const currentNavAuth = findAuthByPath(pathname);
+
+	const handleGetUserInfo = useCallback(async () => {
+		try {
+			const res = await userService.me();
+			console.log("User info:", res);
+		} catch (error) {
+			console.log("User error:", error);
+		}
+	}, []);
+
+	useEffect(() => {
+		console.log("Current path:", accessToken);
+		handleGetUserInfo();
+	}, [accessToken, handleGetUserInfo]);
 
 	return (
 		<AuthGuard checkAny={currentNavAuth} fallback={<Page403 />}>
