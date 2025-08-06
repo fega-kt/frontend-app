@@ -1,5 +1,5 @@
 import type { Result } from "#/api";
-import { ResultStuts } from "#/enum";
+import { ResultStatus } from "#/enum";
 import { GLOBAL_CONFIG } from "@/global-config";
 import { t } from "@/locales/i18n";
 import userStore from "@/store/userStore";
@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
 	(res: AxiosResponse<Result<any>>) => {
 		if (!res.data) throw new Error(t("sys.api.apiRequestFailed"));
 		const { status, data, message } = res.data;
-		if (status === ResultStuts.SUCCESS) {
+		if (status === ResultStatus.SUCCESS) {
 			return data;
 		}
 		throw new Error(message || t("sys.api.apiRequestFailed"));

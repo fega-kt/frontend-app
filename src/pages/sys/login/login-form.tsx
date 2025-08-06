@@ -5,7 +5,14 @@ import { GLOBAL_CONFIG } from "@/global-config";
 import { useSignIn } from "@/store/userStore";
 import { Button } from "@/ui/button";
 import { Checkbox } from "@/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/ui/form";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/ui/form";
 import { Input } from "@/ui/input";
 import { cn } from "@/utils";
 import { Loader2 } from "lucide-react";
@@ -14,9 +21,15 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
-import { LoginStateEnum, useLoginStateContext } from "./providers/login-provider";
+import {
+	LoginStateEnum,
+	useLoginStateContext,
+} from "./providers/login-provider";
 
-export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"form">) {
+export function LoginForm({
+	className,
+	...props
+}: React.ComponentPropsWithoutRef<"form">) {
 	const { t } = useTranslation();
 	const [loading, setLoading] = useState(false);
 	const [remember, setRemember] = useState(true);
@@ -39,7 +52,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 		try {
 			await signIn(values);
 			navigatge(GLOBAL_CONFIG.defaultRoute, { replace: true });
-			toast.success("Sign in success!", {
+			toast.success(t("sys.login.loginSuccessTitle"), {
 				closeButton: true,
 			});
 		} finally {
@@ -52,8 +65,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 			<Form {...form} {...props}>
 				<form onSubmit={form.handleSubmit(handleFinish)} className="space-y-4">
 					<div className="flex flex-col items-center gap-2 text-center">
-						<h1 className="text-2xl font-bold">{t("sys.login.signInFormTitle")}</h1>
-						<p className="text-balance text-sm text-muted-foreground">{t("sys.login.signInFormDescription")}</p>
+						<h1 className="text-2xl font-bold">
+							{t("sys.login.signInFormTitle")}
+						</h1>
+						<p className="text-balance text-sm text-muted-foreground">
+							{t("sys.login.signInFormDescription")}
+						</p>
 					</div>
 
 					<FormField
@@ -79,7 +96,12 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 							<FormItem>
 								<FormLabel>{t("sys.login.password")}</FormLabel>
 								<FormControl>
-									<Input type="password" placeholder={DB_USER[0].password} {...field} suppressHydrationWarning />
+									<Input
+										type="password"
+										placeholder={DB_USER[0].password}
+										{...field}
+										suppressHydrationWarning
+									/>
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -92,7 +114,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 							<Checkbox
 								id="remember"
 								checked={remember}
-								onCheckedChange={(checked) => setRemember(checked === "indeterminate" ? false : checked)}
+								onCheckedChange={(checked) =>
+									setRemember(checked === "indeterminate" ? false : checked)
+								}
 							/>
 							<label
 								htmlFor="remember"
@@ -101,7 +125,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 								{t("sys.login.rememberMe")}
 							</label>
 						</div>
-						<Button variant="link" onClick={() => setLoginState(LoginStateEnum.RESET_PASSWORD)} size="sm">
+						<Button
+							variant="link"
+							onClick={() => setLoginState(LoginStateEnum.RESET_PASSWORD)}
+							size="sm"
+						>
 							{t("sys.login.forgetPassword")}
 						</Button>
 					</div>
@@ -114,11 +142,19 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
 					{/* 手机登录/二维码登录 */}
 					<div className="grid gap-4 sm:grid-cols-2">
-						<Button variant="outline" className="w-full" onClick={() => setLoginState(LoginStateEnum.MOBILE)}>
+						<Button
+							variant="outline"
+							className="w-full"
+							onClick={() => setLoginState(LoginStateEnum.MOBILE)}
+						>
 							<Icon icon="uil:mobile-android" size={20} />
 							{t("sys.login.mobileSignInFormTitle")}
 						</Button>
-						<Button variant="outline" className="w-full" onClick={() => setLoginState(LoginStateEnum.QR_CODE)}>
+						<Button
+							variant="outline"
+							className="w-full"
+							onClick={() => setLoginState(LoginStateEnum.QR_CODE)}
+						>
 							<Icon icon="uil:qrcode-scan" size={20} />
 							{t("sys.login.qrSignInFormTitle")}
 						</Button>
@@ -126,7 +162,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
 					{/* 其他登录方式 */}
 					<div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-						<span className="relative z-10 bg-background px-2 text-muted-foreground">{t("sys.login.otherSignIn")}</span>
+						<span className="relative z-10 bg-background px-2 text-muted-foreground">
+							{t("sys.login.otherSignIn")}
+						</span>
 					</div>
 					<div className="flex cursor-pointer justify-around text-2xl">
 						<Button variant="ghost" size="icon">
@@ -143,7 +181,11 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 					{/* 注册 */}
 					<div className="text-center text-sm">
 						{t("sys.login.noAccount")}
-						<Button variant="link" className="px-1" onClick={() => setLoginState(LoginStateEnum.REGISTER)}>
+						<Button
+							variant="link"
+							className="px-1"
+							onClick={() => setLoginState(LoginStateEnum.REGISTER)}
+						>
 							{t("sys.login.signUpFormTitle")}
 						</Button>
 					</div>
