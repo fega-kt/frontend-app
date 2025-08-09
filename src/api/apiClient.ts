@@ -26,7 +26,7 @@ axiosInstance.interceptors.request.use(
 );
 
 axiosInstance.interceptors.response.use(
-	(res: AxiosResponse<Result<any>>) => {
+	<T>(res: AxiosResponse<Result<T>>) => {
 		if (!res.data) throw new Error(t("sys.api.apiRequestFailed"));
 		const { status, data, message } = res.data;
 		if (status === ResultStatus.SUCCESS) {
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(
 		}
 		throw new Error(message || t("sys.api.apiRequestFailed"));
 	},
-	(error: AxiosError<Result>) => {
+	(error: AxiosError<Result<unknown>>) => {
 		const { response, message } = error || {};
 		const errMsg =
 			response?.data?.message || message || t("sys.api.errorMessage");
@@ -50,17 +50,21 @@ class APIClient {
 	get<T = unknown>(config: AxiosRequestConfig): Promise<T> {
 		return this.request<T>({ ...config, method: "GET" });
 	}
+
 	post<T = unknown>(config: AxiosRequestConfig): Promise<T> {
 		return this.request<T>({ ...config, method: "POST" });
 	}
+
 	put<T = unknown>(config: AxiosRequestConfig): Promise<T> {
 		return this.request<T>({ ...config, method: "PUT" });
 	}
+
 	delete<T = unknown>(config: AxiosRequestConfig): Promise<T> {
 		return this.request<T>({ ...config, method: "DELETE" });
 	}
+
 	request<T = unknown>(config: AxiosRequestConfig): Promise<T> {
-		return axiosInstance.request<any, T>(config);
+		return axiosInstance.request<Result<T>, T>(config);
 	}
 }
 
