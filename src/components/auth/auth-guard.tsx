@@ -95,7 +95,7 @@ export const AuthGuard = ({
 		} catch {
 			setErrorAuthenticated(true);
 		} finally {
-			// setLoading(false);
+			setLoading(false);
 		}
 	}, [setUserInfo]);
 
