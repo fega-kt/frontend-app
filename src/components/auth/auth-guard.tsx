@@ -1,4 +1,10 @@
-import type { ReactNode } from "react";
+import healthCheckerService from "@/api/services/health-checker/health-checker.service";
+import userService from "@/api/services/userService";
+import Page503 from "@/pages/sys/error/Page503";
+import PageLoading from "@/pages/sys/error/PageLoading";
+import { useUserActions } from "@/store/userStore";
+import ModalFullScreenCustom from "@/ui/modal-fullscreen-custom";
+import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { useAuthCheck } from "./use-auth";
 
 interface AuthGuardProps {
@@ -56,10 +62,67 @@ interface AuthGuardProps {
  *   <AdminPanel />
  * </AuthGuard>
  */
-export const AuthGuard = ({ children, fallback = null, check, checkAny, checkAll, baseOn = "permission" }: AuthGuardProps) => {
+export const AuthGuard = ({
+	children,
+	fallback = null,
+	check,
+	checkAny,
+	checkAll,
+	baseOn = "permission",
+}: AuthGuardProps) => {
 	const checkFn = useAuthCheck(baseOn);
 
-	const hasAccess = check ? checkFn.check(check) : checkAny ? checkFn.checkAny(checkAny) : checkAll ? checkFn.checkAll(checkAll) : true;
+	const hasAccess = check
+		? checkFn.check(check)
+		: checkAny
+			? checkFn.checkAny(checkAny)
+			: checkAll
+				? checkFn.checkAll(checkAll)
+				: true;
 
-	return hasAccess ? <>{children}</> : <>{fallback}</>;
+	const [errorAuthenticated, setErrorAuthenticated] = useState<boolean>(false);
+	const [loading, setLoading] = useState<boolean>(false);
+
+	const { setUserInfo } = useUserActions();
+
+	const fetchUserInfo = useCallback(async () => {
+		try {
+			setLoading(true);
+			await healthCheckerService.healthDatabase();
+			const userInfo = await userService.me();
+			setErrorAuthenticated(false);
+			setUserInfo(userInfo);
+		} catch {
+			setErrorAuthenticated(true);
+		} finally {
+			setLoading(false);
+		}
+	}, [setUserInfo]);
+
+	useEffect(() => {
+		fetchUserInfo();
+
+		const intervalId = setInterval(() => {
+			fetchUserInfo();
+		}, 60000);
+
+		return () => clearInterval(intervalId);
+	}, [fetchUserInfo]);
+
+	if (loading) {
+		return (
+			<ModalFullScreenCustom autoOpen>
+				<PageLoading />
+			</ModalFullScreenCustom>
+		);
+	}
+
+	if (errorAuthenticated) {
+		return (
+			<ModalFullScreenCustom autoOpen>
+				<Page503 />
+			</ModalFullScreenCustom>
+		);
+	}
+	return hasAccess ? children : fallback;
 };
