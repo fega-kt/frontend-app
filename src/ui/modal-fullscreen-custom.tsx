@@ -4,6 +4,7 @@ import "./modal-fullscreen-custom.scss";
 export interface ModalFullScreenCustomRef {
 	open: () => void;
 	close: () => void;
+	getVisible: () => boolean;
 }
 
 interface ModalFullScreenCustomProps {
@@ -21,6 +22,7 @@ const ModalFullScreenCustom = forwardRef<
 	useImperativeHandle(ref, () => ({
 		open: () => setVisible(true),
 		close: () => setVisible(false),
+		getVisible: () => !!visible,
 	}));
 
 	return (

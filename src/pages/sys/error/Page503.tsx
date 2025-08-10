@@ -100,6 +100,7 @@ export default function Page503() {
 			helmetTitle="503 Service Unavailable!"
 			desc="Server is currently unavailable."
 			svg={svg}
+			slots={{ footer: <></> }}
 		/>
 	);
 }
