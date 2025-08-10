@@ -62,7 +62,7 @@ export default function PageLoading() {
 	return (
 		<ErrorLayout
 			title="Fetching data..."
-			helmetTitle="Loading..."
+			// helmetTitle="Loading..."
 			desc="Please wait while the data is loading."
 			svg={svg}
 			className="page_loading"

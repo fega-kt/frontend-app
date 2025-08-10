@@ -4,6 +4,10 @@
 		"rules": {
 			"style": {
 				"useImportType": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "error",
+				"noStaticElementInteractions": "off"
 			}
 		}
 	}
