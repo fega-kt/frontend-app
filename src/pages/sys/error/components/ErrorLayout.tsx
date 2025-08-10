@@ -18,6 +18,7 @@ interface ErrorLayoutProps {
 	slots?: {
 		footer?: ReactNode;
 	};
+	className?: string;
 }
 
 export default function ErrorLayout({
@@ -27,6 +28,7 @@ export default function ErrorLayout({
 	helmetTitle,
 	homePath = GLOBAL_CONFIG.defaultRoute,
 	buttonText = "Go to Home",
+	className = "",
 	slots = {},
 }: ErrorLayoutProps) {
 	return (
@@ -36,7 +38,9 @@ export default function ErrorLayout({
 					<title>{helmetTitle}</title>
 				</Helmet>
 			)}
-			<div className="m-auto max-w-[400px] flex items-center justify-center h-full">
+			<div
+				className={`m-auto max-w-[400px] flex items-center justify-center h-full ${className}`}
+			>
 				<MotionContainer className="flex flex-col items-center justify-center px-2 w-full gap-2">
 					<m.div variants={varBounce().in}>
 						<Title as="h2" className="text-center">
