@@ -1,6 +1,10 @@
 import { Icon } from "@/components/icon";
 import useLocale from "@/locales/use-locale";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/ui/collapsible";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "@/ui/collapsible";
 import { cn } from "@/utils";
 import { useToggle } from "react-use";
 import type { NavGroupProps } from "../types";
@@ -14,8 +18,8 @@ export function NavGroup({ name, items }: NavGroupProps) {
 			<CollapsibleTrigger asChild>
 				<Group name={name} open={open} onClick={toggleOpen} />
 			</CollapsibleTrigger>
-			<CollapsibleContent>
-				<ul className="flex w-full flex-col gap-1">
+			<CollapsibleContent className="bg-[#ffff]">
+				<ul className="flex w-full flex-col gap-1 ring-1 ring-[#d9d9d9] ring-inset rounded p-2">
 					{items.map((item, index) => (
 						<NavList key={item.title || index} data={item} depth={1} />
 					))}
@@ -25,8 +29,17 @@ export function NavGroup({ name, items }: NavGroupProps) {
 	);
 }
 
-function Group({ name, open, onClick }: { name?: string; open: boolean; onClick: (nextValue: boolean) => void }) {
+function Group({
+	name,
+	open,
+	onClick,
+}: {
+	name?: string;
+	open: boolean;
+	onClick: (nextValue: boolean) => void;
+}) {
 	const { t } = useLocale();
+
 	return (
 		name && (
 			<div
@@ -35,15 +48,27 @@ function Group({ name, open, onClick }: { name?: string; open: boolean; onClick:
 					"hover:pl-4",
 				)}
 				onClick={() => onClick(!open)}
+				onKeyPress={() => {}}
 			>
 				<Icon
 					icon="eva:arrow-ios-forward-fill"
-					className={cn("absolute left-[-4px] h-4 w-4 inline-flex shrink-0 transition-all duration-300 ease-in-out", "opacity-0 group-hover:opacity-100", {
-						"rotate-90": open,
-					})}
+					className={cn(
+						"absolute left-[-4px] h-4 w-4 inline-flex shrink-0 transition-all duration-300 ease-in-out",
+						"opacity-0 group-hover:opacity-100",
+						{
+							"rotate-90": open,
+						},
+					)}
 				/>
 
-				<span className={cn("text-xs font-medium transition-all duration-300 ease-in-out text-text-disabled", "hover:text-text-primary")}>{t(name)}</span>
+				<span
+					className={cn(
+						"text-md font-bold transition-all duration-300 ease-in-out text-text-disabled",
+						"hover:text-text-primary",
+					)}
+				>
+					{t(name)}
+				</span>
 			</div>
 		)
 	);
