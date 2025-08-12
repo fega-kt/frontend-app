@@ -8,6 +8,9 @@
 			"a11y": {
 				"useKeyWithClickEvents": "error",
 				"noStaticElementInteractions": "off"
+			},
+			"correctness": {
+				"noUnusedFunctionParameters": "off"
 			}
 		}
 	}

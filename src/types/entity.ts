@@ -82,7 +82,12 @@ export interface Menu extends CommonOptions, MenuMetaInfo {
 	type: PermissionType;
 }
 
-export type MenuMetaInfo = Partial<Pick<NavItemDataProps, "path" | "icon" | "caption" | "info" | "disabled" | "auth" | "hidden">> & {
+export type MenuMetaInfo = Partial<
+	Pick<
+		NavItemDataProps,
+		"path" | "icon" | "caption" | "info" | "disabled" | "auth" | "hidden"
+	>
+> & {
 	externalLink?: URL;
 	component?: string;
 };
@@ -90,3 +95,12 @@ export type MenuMetaInfo = Partial<Pick<NavItemDataProps, "path" | "icon" | "cap
 export type MenuTree = Menu & {
 	children?: MenuTree[];
 };
+
+export interface EntityBase {
+	id: string;
+	created: Date;
+	createdBy: UserInfo;
+	modified: Date;
+	modifiedBy: UserInfo;
+	deleted: boolean;
+}
