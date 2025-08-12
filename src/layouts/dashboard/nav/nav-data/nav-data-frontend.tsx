@@ -21,46 +21,6 @@ export const frontendNavData: NavProps["data"] = [
 	{
 		name: "sys.nav.pages",
 		items: [
-			// management
-			{
-				title: "sys.nav.management",
-				path: "/management",
-				icon: <Icon icon="local:ic-management" size="24" />,
-				children: [
-					{
-						title: "sys.nav.user.index",
-						path: "/management/user",
-						children: [
-							{
-								title: "sys.nav.user.profile",
-								path: "/management/user/profile",
-							},
-							{
-								title: "sys.nav.user.account",
-								path: "/management/user/account",
-							},
-						],
-					},
-					{
-						title: "sys.nav.system.index",
-						path: "/management/system",
-						children: [
-							{
-								title: "sys.nav.system.permission",
-								path: "/management/system/permission",
-							},
-							{
-								title: "sys.nav.system.role",
-								path: "/management/system/role",
-							},
-							{
-								title: "sys.nav.system.user",
-								path: "/management/system/user",
-							},
-						],
-					},
-				],
-			},
 			// menulevel
 			{
 				title: "sys.nav.menulevel.index",
@@ -239,6 +199,47 @@ export const frontendNavData: NavProps["data"] = [
 				title: "sys.nav.blank",
 				path: "/blank",
 				icon: <Icon icon="local:ic-blank" size="24" />,
+			},
+		],
+	},
+
+	{
+		name: "sys.nav.user.account",
+		items: [
+			// user
+
+			{
+				title: "sys.nav.user.profile",
+				path: "management/user/profile",
+				icon: <Icon icon="mingcute:profile-fill" size="24" />,
+			},
+			{
+				title: "sys.nav.user.account",
+				path: "management/user/account",
+				icon: <Icon icon="material-symbols:account-box" size="24" />,
+			},
+		],
+	},
+
+	// management
+	{
+		name: "sys.nav.management",
+
+		items: [
+			{
+				title: "sys.nav.system.permission",
+				path: "/management/system/permission",
+				icon: <Icon icon="icon-park-twotone:permissions" size="24" />,
+			},
+			{
+				title: "sys.nav.system.role",
+				path: "/management/system/role",
+				icon: <Icon icon="eos-icons:cluster-role" size="24" />,
+			},
+			{
+				title: "sys.nav.system.user",
+				path: "/management/system/user",
+				icon: <Icon icon="local:ic-management" size="24" />,
 			},
 		],
 	},
