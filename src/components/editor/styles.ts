@@ -1,6 +1,6 @@
-import { themeVars } from "@/theme/theme.css";
-import { rgbAlpha } from "@/utils/theme";
-import styled from "styled-components";
+import { themeVars } from '@/theme/theme.css';
+import { rgbAlpha } from '@/utils/theme';
+import styled from 'styled-components';
 
 const StyledEditor = styled.div`
   h1 {
@@ -156,7 +156,8 @@ const StyledToolbar = styled.div`
 
   & .ql-toolbar.ql-snow {
     border: none;
-    border-bottom: 1px solid ${rgbAlpha(themeVars.colors.palette.gray[200], 0.2)};
+    border-bottom: 1px solid
+      ${rgbAlpha(themeVars.colors.palette.gray[200], 0.2)};
     // Button
     & button {
       padding: 0;

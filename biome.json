@@ -1,17 +1,17 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
-	"linter": {
-		"rules": {
-			"style": {
-				"useImportType": "off"
-			},
-			"a11y": {
-				"useKeyWithClickEvents": "error",
-				"noStaticElementInteractions": "off"
-			},
-			"correctness": {
-				"noUnusedFunctionParameters": "off"
-			}
-		}
-	}
+  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+  "linter": {
+    "rules": {
+      "style": {
+        "useImportType": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "error",
+        "noStaticElementInteractions": "off"
+      },
+      "correctness": {
+        "noUnusedFunctionParameters": "off"
+      }
+    }
+  }
 }

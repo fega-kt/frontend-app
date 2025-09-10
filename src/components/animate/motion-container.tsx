@@ -1,8 +1,8 @@
-import { type MotionProps, m } from "motion/react";
-import { varContainer } from "./variants/container";
+import { type MotionProps, m } from 'motion/react';
+import { varContainer } from './variants/container';
 
 interface Props extends MotionProps {
-	className?: string;
+  className?: string;
 }
 
 /**
@@ -41,16 +41,16 @@ interface Props extends MotionProps {
  * - staggerOut: 子元素退出动画的延迟时间（默认：0.05s）
  */
 export default function MotionContainer({ children, className }: Props) {
-	return (
-		<m.div
-			// 这里指定 initial、animate和exit的属性名后，子组件就不需要再重复指定
-			initial="initial"
-			animate="animate"
-			exit="exit"
-			variants={varContainer()}
-			className={className}
-		>
-			{children}
-		</m.div>
-	);
+  return (
+    <m.div
+      // 这里指定 initial、animate和exit的属性名后，子组件就不需要再重复指定
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={varContainer()}
+      className={className}
+    >
+      {children}
+    </m.div>
+  );
 }

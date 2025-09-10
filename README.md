@@ -21,19 +21,21 @@
 
 **English** | [中文](./README.zh-CN.md)
 
-##  Sponsor
+## Sponsor
+
 <div style="display: flex; gap: 50px"> 
   <img style="width:300px" src="https://d3george.github.io/github-static/pay/weixin.jpg" >
   <img style="width:300px" src="https://d3george.github.io/github-static/pay/buymeacoffee.png" />
 </div>
 
 ## Preview
-+ https://admin.slashspaces.com/
 
-|![login.png](https://d3george.github.io/github-static/slash-admin/sa-web-light.jpeg)|![login_dark.png](https://d3george.github.io/github-static/slash-admin/sa-web-dark.jpeg)
-| ----------------------------------------------------------------- | ------------------------------------------------------------------- |
-|![analysis.png](https://d3george.github.io/github-static/slash-admin/sa-mobile-light.jpeg)|![workbench.png](https://d3george.github.io/github-static/slash-admin/sa-mobile-dark.jpeg)
-| | 
+- https://admin.slashspaces.com/
+
+| ![login.png](https://d3george.github.io/github-static/slash-admin/sa-web-light.jpeg)       | ![login_dark.png](https://d3george.github.io/github-static/slash-admin/sa-web-dark.jpeg)   |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| ![analysis.png](https://d3george.github.io/github-static/slash-admin/sa-mobile-light.jpeg) | ![workbench.png](https://d3george.github.io/github-static/slash-admin/sa-mobile-dark.jpeg) |
+|                                                                                            |
 
 ## Features
 
@@ -86,8 +88,9 @@ pnpm build
 ```
 
 ## Git Contribution submission specification
+
 - `feat` new features
-- `fix`  fix the
+- `fix` fix the
 - `docs` documentation or comments
 - `style` code format (changes that do not affect code execution)
 - `refactor` refactor

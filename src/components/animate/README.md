@@ -26,10 +26,11 @@ import MotionContainer from '@/components/animate/motion-container';
 // Usage example
 <MotionContainer>
   <YourComponent />
-</MotionContainer>
+</MotionContainer>;
 ```
 
 Features:
+
 - Automatically applies initial, animate, and exit states
 - Supports custom className for styling
 - Implements animation using the variants system
@@ -37,6 +38,7 @@ Features:
 - Provides consistent animation behavior across the application
 
 Props:
+
 - `children`: React nodes to be animated
 - `className`: Optional CSS class name
 - `...MotionProps`: All Framer Motion props are supported
@@ -51,10 +53,11 @@ import { MotionLazy } from '@/components/animate/motion-lazy';
 // Usage example
 <MotionLazy>
   <YourComponent />
-</MotionLazy>
+</MotionLazy>;
 ```
 
 Features:
+
 - Dynamically loads animation features on demand
 - Reduces initial bundle size
 - Supports strict mode for better development experience
@@ -62,6 +65,7 @@ Features:
 - Uses domMax features for optimal performance
 
 Props:
+
 - `children`: React nodes to be wrapped in lazy loading context
 
 ### MotionViewport
@@ -74,10 +78,11 @@ import MotionViewport from '@/components/animate/motion-viewport';
 // Usage example
 <MotionViewport>
   <YourComponent />
-</MotionViewport>
+</MotionViewport>;
 ```
 
 Features:
+
 - Triggers animations when elements enter the viewport
 - Configurable trigger threshold (default: 0.3)
 - Supports one-time animation triggers
@@ -85,6 +90,7 @@ Features:
 - Optimized for scroll performance
 
 Props:
+
 - `children`: React nodes to be animated
 - `className`: Optional CSS class name
 - `viewport`: Viewport configuration object
@@ -97,22 +103,24 @@ Props:
 The `variants` directory contains predefined animation variants that can be used with these components. These variants provide consistent animation patterns across the application.
 
 Common variants include:
+
 - Fade in/out
 - Slide in/out
 - Scale
 - Stagger children animations
 
 To use custom variants:
+
 ```tsx
 import { varContainer } from './variants';
 
 const customVariants = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -20 }
+  exit: { opacity: 0, y: -20 },
 };
 
 <MotionContainer variants={customVariants}>
   <YourComponent />
-</MotionContainer>
+</MotionContainer>;
 ```

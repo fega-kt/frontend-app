@@ -1,21 +1,21 @@
 {
-	"npm.packageManager": "pnpm",
-	"typescript.tsdk": "./node_modules/typescript/lib",
+  "npm.packageManager": "pnpm",
+  "typescript.tsdk": "./node_modules/typescript/lib",
 
-	"editor.tabSize": 2,
-	"editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
 
-	"tailwindCSS.classFunctions": ["cn", "clsx", "cva", "twMerge"],
-	"tailwindCSS.emmetCompletions": true,
-	"i18n-ally.localesPaths": ["src/locales/lang"],
-	"i18n-ally.enabledParsers": ["json"],
-	"i18n-ally.pathMatcher": "{locale}/{namespaces}.{ext}",
-	"i18n-ally.keystyle": "flat",
-	"i18n-ally.sortKeys": true,
-	"i18n-ally.sourceLanguage": "en_US",
-	"i18n-ally.displayLanguage": "zh_CN",
-	"[typescript]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
-	},
-	"svg.preview.background": "dark-transparent"
+  "tailwindCSS.classFunctions": ["cn", "clsx", "cva", "twMerge"],
+  "tailwindCSS.emmetCompletions": true,
+  "i18n-ally.localesPaths": ["src/locales/lang"],
+  "i18n-ally.enabledParsers": ["json"],
+  "i18n-ally.pathMatcher": "{locale}/{namespaces}.{ext}",
+  "i18n-ally.keystyle": "flat",
+  "i18n-ally.sortKeys": true,
+  "i18n-ally.sourceLanguage": "en_US",
+  "i18n-ally.displayLanguage": "zh_CN",
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "svg.preview.background": "dark-transparent"
 }

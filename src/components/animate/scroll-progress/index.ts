@@ -1,2 +1,2 @@
-export * from "./scroll-progress";
-export * from "./use-scroll-progress";
+export * from './scroll-progress';
+export * from './use-scroll-progress';
