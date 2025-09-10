@@ -1,2 +1,2 @@
-export {} from "./health-checker.service";
-export * from "./health-checker.ts";
+export {} from './health-checker.service';
+export * from './health-checker.ts';

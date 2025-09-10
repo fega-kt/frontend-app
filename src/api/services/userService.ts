@@ -1,42 +1,42 @@
-import apiClient from "../apiClient";
+import apiClient from '../apiClient';
 
-import type { UserInfo, UserToken } from "#/entity";
+import type { UserInfo, UserToken } from '#/entity';
 
 export interface SignInReq {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 }
 
 export interface SignUpReq {
-	email: string;
-	password: string;
-	firstName: string;
-	lastName: string;
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
 }
 export type SignInRes = UserToken & { user: UserInfo };
 
 export enum UserApi {
-	SignIn = "/auth/login",
-	SignUp = "/auth/register",
-	Logout = "/auth/logout",
-	Refresh = "/auth/refresh",
-	User = "/user",
-	Me = "/auth/me",
+  SignIn = '/auth/login',
+  SignUp = '/auth/register',
+  Logout = '/auth/logout',
+  Refresh = '/auth/refresh',
+  User = '/user',
+  Me = '/auth/me',
 }
 
 const signin = (data: SignInReq) =>
-	apiClient.post<SignInRes>({ url: UserApi.SignIn, data });
+  apiClient.post<SignInRes>({ url: UserApi.SignIn, data });
 const signup = (data: SignUpReq) =>
-	apiClient.post<SignInRes>({ url: UserApi.SignUp, data });
+  apiClient.post<SignInRes>({ url: UserApi.SignUp, data });
 const logout = () => apiClient.get({ url: UserApi.Logout });
 const findById = (id: string) =>
-	apiClient.get<UserInfo[]>({ url: `${UserApi.User}/${id}` });
+  apiClient.get<UserInfo[]>({ url: `${UserApi.User}/${id}` });
 const me = () => apiClient.get<UserInfo>({ url: `${UserApi.Me}` });
 
 export default {
-	signin,
-	signup,
-	findById,
-	logout,
-	me,
+  signin,
+  signup,
+  findById,
+  logout,
+  me,
 };

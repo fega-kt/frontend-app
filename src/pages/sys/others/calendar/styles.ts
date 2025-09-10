@@ -1,7 +1,7 @@
-import { themeVars } from "@/theme/theme.css";
-import styled from "styled-components";
+import { themeVars } from '@/theme/theme.css';
+import styled from 'styled-components';
 
-import { ThemeMode } from "#/enum";
+import { ThemeMode } from '#/enum';
 
 export const StyledCalendar = styled.div<{ $themeMode: ThemeMode }>`
   width: 100%;
@@ -17,16 +17,26 @@ export const StyledCalendar = styled.div<{ $themeMode: ThemeMode }>`
     width: 100%;
     height: 100%;
     /* override fullcalendar css variables */
-    --fc-border-color: rgba(${themeVars.colors.palette.gray["500Channel"]} / 0.16);
+    --fc-border-color: rgba(
+      ${themeVars.colors.palette.gray['500Channel']} / 0.16
+    );
     --fc-now-indicator-color: ${themeVars.colors.palette.primary.darker};
-    --fc-today-bg-color: rgba(${themeVars.colors.palette.gray["500Channel"]} / 0.08);
-    --fc-page-bg-color: ${(props) => (props.$themeMode === ThemeMode.Light ? "#ffffff" : "#161c24")};
+    --fc-today-bg-color: rgba(
+      ${themeVars.colors.palette.gray['500Channel']} / 0.08
+    );
+    --fc-page-bg-color: ${(props) =>
+      props.$themeMode === ThemeMode.Light ? '#ffffff' : '#161c24'};
     --fc-neutral-bg-color: ${themeVars.colors.background.default};
-    --fc-list-event-hover-bg-color: rgba(${themeVars.colors.palette.gray["500Channel"]} / 0.08);
-    --fc-highlight-color: rgba(${themeVars.colors.palette.gray["500Channel"]} / 0.08);
+    --fc-list-event-hover-bg-color: rgba(
+      ${themeVars.colors.palette.gray['500Channel']} / 0.08
+    );
+    --fc-highlight-color: rgba(
+      ${themeVars.colors.palette.gray['500Channel']} / 0.08
+    );
 
     a {
-      color: ${(props) => (props.$themeMode === ThemeMode.Dark ? "#ffffff" : "#212b36")};
+      color: ${(props) =>
+        props.$themeMode === ThemeMode.Dark ? '#ffffff' : '#212b36'};
     }
     .fc-col-header {
       box-shadow: ${themeVars.shadows.inner};
@@ -119,7 +129,7 @@ export const StyledCalendar = styled.div<{ $themeMode: ThemeMode }>`
       }
 
       .fc-list-event-time {
-        color: ${themeVars.colors.palette.gray["500Channel"]};
+        color: ${themeVars.colors.palette.gray['500Channel']};
       }
       .fc-event-title {
         color: ${themeVars.colors.text.primary};

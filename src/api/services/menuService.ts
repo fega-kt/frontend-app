@@ -1,13 +1,13 @@
-import apiClient from "../apiClient";
+import apiClient from '../apiClient';
 
-import type { Menu } from "#/entity";
+import type { Menu } from '#/entity';
 
 export enum MenuApi {
-	Menu = "/menu",
+  Menu = '/menu',
 }
 
 const getMenuList = () => apiClient.get<Menu[]>({ url: MenuApi.Menu });
 
 export default {
-	getMenuList,
+  getMenuList,
 };

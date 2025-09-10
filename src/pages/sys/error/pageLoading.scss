@@ -1,6 +1,6 @@
-@use "sass:color";
-@use "sass:list";
-@use "sass:map";
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:map';
 
 // functions
 .page_loading {
@@ -8,10 +8,10 @@
     @return color.scale($color, $lightness: $l);
   }
   $brick-colors: (
-    "red": hsl(358, 78%, 49%),
-    "orange": hsl(26, 91%, 54%),
-    "green": hsl(80, 57%, 51%),
-    "blue": hsl(210, 69%, 42%),
+    'red': hsl(358, 78%, 49%),
+    'orange': hsl(26, 91%, 54%),
+    'green': hsl(80, 57%, 51%),
+    'blue': hsl(210, 69%, 42%),
   );
 
   // mixins
@@ -50,7 +50,9 @@
     display: flex;
     font: 1em / 1.5 sans-serif;
     height: 100vh;
-    transition: background-color var(--trans-dur), color var(--trans-dur);
+    transition:
+      background-color var(--trans-dur),
+      color var(--trans-dur);
   }
   .pl {
     display: block;

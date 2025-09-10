@@ -1,14 +1,14 @@
-import apiClient from "../../apiClient";
+import apiClient from '../../apiClient';
 
-import { HealthCheckResult } from "./health-checker";
+import { HealthCheckResult } from './health-checker';
 
 export enum HealthApi {
-	HealthDatabase = "/health/database",
+  HealthDatabase = '/health/database',
 }
 
 const healthDatabase = () =>
-	apiClient.get<HealthCheckResult[]>({ url: `${HealthApi.HealthDatabase}` });
+  apiClient.get<HealthCheckResult[]>({ url: `${HealthApi.HealthDatabase}` });
 
 export default {
-	healthDatabase,
+  healthDatabase,
 };
