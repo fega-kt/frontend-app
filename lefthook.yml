@@ -7,8 +7,8 @@ skip_output:
 pre-commit:
   parallel: true
   commands:
-    # lint:
-    #   run: pnpm lint-staged // tạm thời k check eslint
+    lint:
+      run: pnpm lint-staged
 
 commit-msg:
   commands:

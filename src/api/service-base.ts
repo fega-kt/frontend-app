@@ -7,6 +7,7 @@ import axios, {
   type AxiosError,
   type AxiosRequestConfig,
   type AxiosResponse,
+  InternalAxiosRequestConfig,
 } from 'axios';
 import { toast } from 'sonner';
 
@@ -23,12 +24,12 @@ const axiosInstance = axios.create({
 
 // Request interceptor
 axiosInstance.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const { accessToken } = userStore.getState().userToken;
     config.headers.Authorization = accessToken ? `Bearer ${accessToken}` : '';
     return config;
   },
-  (error) => Promise.reject(error)
+  (error: Error) => Promise.reject(error)
 );
 
 // Response interceptor
@@ -96,6 +97,7 @@ export class APIClient<T = unknown> {
   }
 
   post<R = T>(data?: unknown, options?: RequestOptions): Promise<R> {
+    console.log('data', data, options);
     return this.request<R>({
       method: 'POST',
       url: this.endpoint,
