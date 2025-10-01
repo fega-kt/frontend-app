@@ -16,6 +16,10 @@ export default [
         ...globals.es2021,
         ...globals.worker,
         ...globals.commonjs,
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        React: 'readonly',
       },
     },
     plugins: {
