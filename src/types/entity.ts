@@ -1,3 +1,4 @@
+import { BaseEntity } from '@/api/entity-base';
 import type { NavItemDataProps } from '@/components/nav/types';
 import type { BasicStatus, PermissionType } from './enum';
 
@@ -6,16 +7,22 @@ export interface UserToken {
   refreshToken?: string;
 }
 
-export interface UserInfo {
-  id: string;
+export interface UserInfo extends BaseEntity {
   email: string;
-  username: string;
+  firstName?: string;
+  lastName?: string;
   password?: string;
   avatar?: string;
   roles?: Role[];
   status?: BasicStatus;
   permissions?: Permission[];
   menu?: MenuTree[];
+  role: RoleType;
+}
+
+export enum RoleType {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
 
 export interface Permission_Old {

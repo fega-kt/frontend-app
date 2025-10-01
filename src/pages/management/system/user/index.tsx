@@ -1,23 +1,33 @@
-// import { USER_LIST } from "@/_mock/assets";
+import type { RoleType } from '#/entity';
+import { BasicStatus } from '#/enum';
+import { UserItemList } from '@/api/services/user';
+import { userService } from '@/api/services/user/user.service';
 import { Icon } from '@/components/icon';
 import { usePathname, useRouter } from '@/routes/hooks';
 import { Badge } from '@/ui/badge';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
+import { RenderAvatar } from '@/ui/render-avatar';
+import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import type { Role_Old, UserInfo } from '#/entity';
-import { BasicStatus } from '#/enum';
 
-// TODO: fix
-// const USERS: UserInfo[] = USER_LIST as UserInfo[];
-const USERS: UserInfo[] = [];
+export const useUsers = () => {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: () => userService.getList(),
+    staleTime: 1000 * 60, // dữ liệu 1 phút không fetch lại
+    refetchOnWindowFocus: false, // tránh fetch lại khi focus window
+  });
+};
 
 export default function UserPage() {
   const { push } = useRouter();
   const pathname = usePathname();
+  const { data, isLoading, isError } = useUsers();
+  const users = data?.data || [];
 
-  const columns: ColumnsType<UserInfo> = [
+  const columns: ColumnsType<UserItemList> = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -25,16 +35,22 @@ export default function UserPage() {
       render: (_, record) => {
         return (
           <div className="flex">
-            <img
-              alt=""
-              src={record.avatar}
+            <RenderAvatar
+              avatar={record.avatar}
               className="h-10 w-10 rounded-full"
+              name={record.lastName}
             />
             <div className="ml-2 flex flex-col">
-              <span className="text-sm">{record.username}</span>
-              <span className="text-xs text-text-secondary">
-                {record.email}
+              <span className="text-sm">
+                {record.firstName || ''} {record.lastName || ''}
               </span>
+
+              <a
+                href={`mailto:${record.email}`}
+                className="text-xs hover:underline hover:text-blue-600"
+              >
+                {record.email}
+              </a>
             </div>
           </div>
         );
@@ -45,7 +61,7 @@ export default function UserPage() {
       dataIndex: 'role',
       align: 'center',
       width: 120,
-      render: (role: Role_Old) => <Badge variant="info">{role.name}</Badge>,
+      render: (role: RoleType) => <Badge variant="info">{role}</Badge>,
     },
     {
       title: 'Status',
@@ -98,14 +114,20 @@ export default function UserPage() {
         </div>
       </CardHeader>
       <CardContent>
-        <Table
-          rowKey="id"
-          size="small"
-          scroll={{ x: 'max-content' }}
-          pagination={false}
-          columns={columns}
-          dataSource={USERS}
-        />
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : isError ? (
+          <div>Error loading users</div>
+        ) : (
+          <Table
+            rowKey="id"
+            size="small"
+            scroll={{ x: 'max-content' }}
+            pagination={false}
+            columns={columns}
+            dataSource={users}
+          />
+        )}
       </CardContent>
     </Card>
   );

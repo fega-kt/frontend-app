@@ -12,7 +12,7 @@ import axios, {
 import { toast } from 'sonner';
 
 export interface PaginateResult<T> {
-  docs: T[];
+  data: T[];
   count: number;
 }
 
@@ -117,6 +117,34 @@ export class APIClient<T = unknown> {
     return this.request<R>({
       method: 'DELETE',
       url: `${this.endpoint}/${id}`,
+    });
+  }
+
+  paginate<R = T>(
+    enpointCustom?: string,
+    data?: { page: number; take: number }
+  ): Promise<PaginateResult<R>> {
+    return this.request<PaginateResult<R>>({
+      method: 'POST',
+      url: [this.endpoint, enpointCustom].filter(Boolean).join('/'),
+      data: data,
+      params: {
+        ...(this.populateKeys?.length ? { populate: this.populateKeys } : {}),
+      },
+    });
+  }
+
+  getPaginate<R = T>(
+    enpointCustom?: string,
+    params?: Record<string, unknown>
+  ): Promise<PaginateResult<R>> {
+    return this.request<PaginateResult<R>>({
+      method: 'GET',
+      url: [this.endpoint, enpointCustom].filter(Boolean).join('/'),
+      params: {
+        ...params,
+        ...(this.populateKeys?.length ? { populate: this.populateKeys } : {}),
+      },
     });
   }
 
