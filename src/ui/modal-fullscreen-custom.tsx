@@ -1,5 +1,10 @@
 import { Modal } from 'antd';
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, {
+  forwardRef,
+  useCallback,
+  useImperativeHandle,
+  useState,
+} from 'react';
 import './modal-fullscreen-custom.scss';
 export interface ModalFullScreenCustomRef {
   open: () => void;
@@ -19,9 +24,13 @@ const ModalFullScreenCustom = forwardRef<
 >(({ title, autoOpen, children }, ref) => {
   const [visible, setVisible] = useState<boolean>(!!autoOpen);
 
+  const close = useCallback(() => {
+    setVisible(false);
+  }, []);
+
   useImperativeHandle(ref, () => ({
     open: () => setVisible(true),
-    close: () => setVisible(false),
+    close: () => close(),
     getVisible: () => !!visible,
   }));
 
@@ -30,7 +39,7 @@ const ModalFullScreenCustom = forwardRef<
       className={`ct_ant_modal_content !border-0 !max-w-full !top-0 !h-full xsm:!m-0 !rounded-none`}
       width="100%"
       title={title}
-      visible={visible}
+      open={visible}
       onCancel={() => {
         close();
       }}

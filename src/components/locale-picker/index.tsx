@@ -1,3 +1,4 @@
+import type { LocalEnum } from '#/enum';
 import { Icon } from '@/components/icon';
 import useLocale, { LANGUAGE_MAP } from '@/locales/use-locale';
 import { Button } from '@/ui/button';
@@ -7,7 +8,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu';
-import type { LocalEnum } from '#/enum';
 
 type Locale = keyof typeof LocalEnum;
 
