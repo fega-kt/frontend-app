@@ -1,5 +1,5 @@
-import { BaseEntity } from '@/api/entity-base';
+import { EntityBase } from '@/api/entity-base';
 import { UserInfo } from '@/types/entity';
 
-export type UserItemList = BaseEntity &
+export type UserItemList = EntityBase &
   Pick<UserInfo, 'role' | 'email' | 'firstName' | 'lastName' | 'avatar'>;

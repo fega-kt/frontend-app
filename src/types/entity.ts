@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/api/entity-base';
+import { EntityBase } from '@/api/entity-base';
 import type { NavItemDataProps } from '@/components/nav/types';
 import type { BasicStatus, PermissionType } from './enum';
 
@@ -7,7 +7,7 @@ export interface UserToken {
   refreshToken?: string;
 }
 
-export interface UserInfo extends BaseEntity {
+export interface UserInfo extends EntityBase {
   email: string;
   firstName?: string;
   lastName?: string;
@@ -102,12 +102,3 @@ export type MenuMetaInfo = Partial<
 export type MenuTree = Menu & {
   children?: MenuTree[];
 };
-
-export interface EntityBase {
-  id: string;
-  created: Date;
-  createdBy: UserInfo;
-  modified: Date;
-  modifiedBy: UserInfo;
-  deleted: boolean;
-}
