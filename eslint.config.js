@@ -2,8 +2,8 @@
 import js from '@eslint/js';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import parser from '@typescript-eslint/parser';
+import globals from 'globals';
 
-/** @type {import("eslint").Linter.FlatConfig[]} */
 export default [
   js.configs.recommended,
   {
@@ -11,9 +11,11 @@ export default [
     languageOptions: {
       parser, // dùng parser của TypeScript
       globals: {
-        console: 'readonly', // khai báo console là global
-        window: 'readonly',
-        document: 'readonly',
+        ...globals.browser,
+        ...globals.node,
+        ...globals.es2021,
+        ...globals.worker,
+        ...globals.commonjs,
       },
     },
     plugins: {
