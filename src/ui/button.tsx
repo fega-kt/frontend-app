@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Slot as SlotPrimitive } from 'radix-ui';
 import { cva, type VariantProps } from 'class-variance-authority';
+import { Slot as SlotPrimitive } from 'radix-ui';
+import * as React from 'react';
 
 import { cn } from '@/utils/index';
 
@@ -47,7 +47,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const Comp = asChild ? SlotPrimitive.Slot : 'button';
     return (
       <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          'cursor-pointer',
+          buttonVariants({ variant, size, className })
+        )}
         ref={ref}
         {...props}
       />

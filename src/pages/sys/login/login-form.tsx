@@ -126,6 +126,7 @@ export function LoginForm({
               </label>
             </div>
             <Button
+              type="button"
               variant="link"
               onClick={() => setLoginState(LoginStateEnum.RESET_PASSWORD)}
               size="sm"
