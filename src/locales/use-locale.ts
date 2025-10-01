@@ -1,11 +1,13 @@
-import 'dayjs/locale/zh-cn';
 import en_US from 'antd/locale/en_US';
+import vi_VN from 'antd/locale/vi_VN';
+
 import zh_CN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 import { useTranslation } from 'react-i18next';
 
-import type { Locale as AntdLocal } from 'antd/es/locale';
 import { LocalEnum } from '#/enum';
+import type { Locale as AntdLocal } from 'antd/es/locale';
 
 type Locale = keyof typeof LocalEnum;
 type Language = {
@@ -16,6 +18,12 @@ type Language = {
 };
 
 export const LANGUAGE_MAP: Record<Locale, Language> = {
+  [LocalEnum.vi_VN]: {
+    locale: LocalEnum.vi_VN,
+    label: 'Vietnamese',
+    icon: 'flag-vn',
+    antdLocal: vi_VN,
+  },
   [LocalEnum.zh_CN]: {
     locale: LocalEnum.zh_CN,
     label: 'Chinese',

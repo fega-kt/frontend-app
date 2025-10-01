@@ -1,10 +1,10 @@
+import { LocalEnum } from '#/enum';
 import { Icon } from '@/components/icon';
 import useLocale from '@/locales/use-locale';
 import { themeVars } from '@/theme/theme.css';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/ui/radio-group';
-import { LocalEnum } from '#/enum';
 
 export default function MultiLanguagePage() {
   const {
@@ -39,7 +39,12 @@ export default function MultiLanguagePage() {
           <RadioGroup
             onValueChange={(value: LocalEnum) => setLocale(value)}
             defaultValue={locale}
+            value={locale}
           >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value={LocalEnum.vi_VN} id="vi_VN" />
+              <label htmlFor="vi_VN">Vietnamese</label>
+            </div>
             <div className="flex items-center space-x-2">
               <RadioGroupItem value={LocalEnum.en_US} id="en_US" />
               <label htmlFor="en_US">English</label>
