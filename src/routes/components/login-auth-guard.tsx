@@ -1,5 +1,5 @@
+import { authService } from '@/api/services/auth';
 import healthCheckerService from '@/api/services/health-checker/health-checker.service';
-import userService from '@/api/services/userService';
 import Page503 from '@/pages/sys/error/Page503';
 import PageLoading from '@/pages/sys/error/PageLoading';
 import { useUserActions, useUserToken } from '@/store/userStore';
@@ -40,7 +40,7 @@ export default function LoginAuthGuard({ children }: Props) {
       }
 
       await healthCheckerService.healthDatabase();
-      const userInfo = await userService.me();
+      const userInfo = await authService.me();
       setUserInfo(userInfo);
       modalFullScreenCustom.current?.close();
     } catch {

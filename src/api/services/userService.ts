@@ -31,12 +31,10 @@ const signup = (data: SignUpReq) =>
 const logout = () => apiClient.get({ url: UserApi.Logout });
 const findById = (id: string) =>
   apiClient.get<UserInfo[]>({ url: `${UserApi.User}/${id}` });
-const me = () => apiClient.get<UserInfo>({ url: `${UserApi.Me}` });
 
 export default {
   signin,
   signup,
   findById,
   logout,
-  me,
 };
