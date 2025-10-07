@@ -9,6 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/ui/dropdown-menu';
+import { RenderAvatar } from '@/ui/render-avatar';
 import { useTranslation } from 'react-i18next';
 import { NavLink } from 'react-router';
 
@@ -17,7 +18,7 @@ import { NavLink } from 'react-router';
  */
 export default function AccountDropdown() {
   const { replace } = useRouter();
-  const { username, email, avatar } = useUserInfo();
+  const { firstName, lastName, email, avatar } = useUserInfo();
   const { clearUserInfoAndToken } = useUserActions();
   const { backToLogin } = useLoginStateContext();
   const { t } = useTranslation();
@@ -36,15 +37,23 @@ export default function AccountDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <img className="h-6 w-6 rounded-full" src={avatar} alt="" />
+          <RenderAvatar
+            avatar={avatar}
+            name={firstName || ''}
+            className="h-6 w-6 rounded-full"
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <div className="flex items-center gap-2 p-2">
-          <img className="h-10 w-10 rounded-full" src={avatar} alt="" />
+          <RenderAvatar
+            avatar={avatar}
+            name={firstName || ''}
+            className="h-10 w-10 rounded-full"
+          />
           <div className="flex flex-col items-start">
             <div className="text-text-primary text-sm font-medium">
-              {username}
+              {firstName || ''} {lastName || ''}
             </div>
             <div className="text-text-secondary text-xs">{email}</div>
           </div>

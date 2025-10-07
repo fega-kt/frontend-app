@@ -2,10 +2,10 @@ import { useMutation } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import userService, { type SignInReq } from '@/api/services/userService';
-
 import type { UserInfo, UserToken } from '#/entity';
 import { StorageEnum } from '#/enum';
+import { authService } from '@/api/services/auth';
+import { SignInReq } from '@/api/services/auth/auth';
 
 type UserStore = {
   userInfo: Partial<UserInfo>;
@@ -58,7 +58,7 @@ export const useSignIn = () => {
   const { setUserToken, setUserInfo } = useUserActions();
 
   const signInMutation = useMutation({
-    mutationFn: userService.signin,
+    mutationFn: authService.signin.bind(authService),
   });
 
   const signIn = async (data: SignInReq) => {

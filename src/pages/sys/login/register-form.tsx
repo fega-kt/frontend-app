@@ -1,8 +1,9 @@
-import userService from '@/api/services/userService';
+import { authService } from '@/api/services/auth';
 import { Button } from '@/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/ui/form';
 import { Input } from '@/ui/input';
 import { useMutation } from '@tanstack/react-query';
+import { omit } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { ReturnButton } from './components/ReturnButton';
@@ -24,7 +25,7 @@ function RegisterForm() {
   const { loginState, backToLogin } = useLoginStateContext();
 
   const signUpMutation = useMutation({
-    mutationFn: userService.signup,
+    mutationFn: authService.signup.bind(authService),
   });
 
   const form = useForm<FormValues>({
@@ -38,9 +39,7 @@ function RegisterForm() {
   });
 
   const onFinish = async (values: FormValues) => {
-    console.log('Received values of form: ', values);
-    const { confirmPassword, ...rest } = values;
-    await signUpMutation.mutateAsync(rest);
+    await signUpMutation.mutateAsync(omit(values, ['confirmPassword']));
     backToLogin();
   };
 
