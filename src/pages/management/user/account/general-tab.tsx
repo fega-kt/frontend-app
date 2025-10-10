@@ -3,7 +3,7 @@ import {
   SingleUploadAvatar,
   SingleUploadAvatarRef,
 } from '@/components/upload/single-upload-avatar';
-import { useUserInfo } from '@/store/userStore';
+import { useUserActions, useUserInfo } from '@/store/userStore';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardFooter } from '@/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/ui/form';
@@ -29,6 +29,8 @@ type FieldType = {
 export default function GeneralTab() {
   const singleUploadAvatarRef = useRef<SingleUploadAvatarRef>(null);
   const { avatar, email, id } = useUserInfo();
+  const { setUserInfo } = useUserActions();
+
   const form = useForm<FieldType>({
     defaultValues: {
       // name: username,
@@ -41,12 +43,22 @@ export default function GeneralTab() {
     },
   });
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     console.log(form.getValues());
     const file = singleUploadAvatarRef.current?.getFile();
-    toast.success('Update success!');
     if (id) {
-      userService.updateUser(id, {}, file as unknown as File);
+      try {
+        const user = await userService.updateUser(
+          id,
+          {},
+          file as unknown as File
+        );
+        setUserInfo(user);
+        toast.success('Update success!');
+        singleUploadAvatarRef.current?.clearFile();
+      } catch {
+        toast.error('Update error!');
+      }
     }
   }, [form]);
 
