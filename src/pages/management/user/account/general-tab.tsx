@@ -1,4 +1,8 @@
-import { UploadAvatar } from '@/components/upload';
+import { userService } from '@/api/services/user';
+import {
+  SingleUploadAvatar,
+  SingleUploadAvatarRef,
+} from '@/components/upload/single-upload-avatar';
 import { useUserInfo } from '@/store/userStore';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardFooter } from '@/ui/card';
@@ -8,6 +12,7 @@ import { Switch } from '@/ui/switch';
 import { Textarea } from '@/ui/textarea';
 import { Text } from '@/ui/typography';
 import { faker } from '@faker-js/faker';
+import { useCallback, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -22,10 +27,11 @@ type FieldType = {
 };
 
 export default function GeneralTab() {
-  const { avatar, username, email } = useUserInfo();
+  const singleUploadAvatarRef = useRef<SingleUploadAvatarRef>(null);
+  const { avatar, email, id } = useUserInfo();
   const form = useForm<FieldType>({
     defaultValues: {
-      name: username,
+      // name: username,
       email,
       phone: faker.phone.number(),
       address: faker.location.county(),
@@ -35,15 +41,23 @@ export default function GeneralTab() {
     },
   });
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
+    console.log(form.getValues());
+    const file = singleUploadAvatarRef.current?.getFile();
     toast.success('Update success!');
-  };
+    if (id) {
+      userService.updateUser(id, {}, file as unknown as File);
+    }
+  }, [form]);
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
       <div className="col-span-1">
         <Card className="flex-col items-center px-6! pb-10! pt-20!">
-          <UploadAvatar defaultAvatar={avatar} />
+          <SingleUploadAvatar
+            defaultAvatar={avatar}
+            ref={singleUploadAvatarRef}
+          />
 
           <div className="flex items-center py-6 gap-2 w-40">
             <Text variant="body1">Public Profile</Text>
@@ -75,6 +89,7 @@ export default function GeneralTab() {
                 <FormField
                   control={form.control}
                   name="email"
+                  disabled
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>

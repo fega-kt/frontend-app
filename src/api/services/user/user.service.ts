@@ -15,6 +15,16 @@ export class UserService extends APIClient<UserInfo> {
       take: 10,
     });
   }
+
+  updateUser(id: string, data: unknown, file?: File) {
+    const formData = new FormData();
+    if (file) formData.append('avatar', file);
+    return this.put(id, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
 }
 
 export const userService = new UserService();
