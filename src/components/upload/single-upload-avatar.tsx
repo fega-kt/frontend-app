@@ -16,6 +16,7 @@ interface Props extends UploadProps {
 
 export interface SingleUploadAvatarRef {
   clear: () => void;
+  clearFile: () => void;
   getFile: () => UploadFile | undefined;
   getImageUrl: () => string;
 }
@@ -33,6 +34,10 @@ export const SingleUploadAvatar = forwardRef<SingleUploadAvatarRef, Props>(
       setImageUrl('');
     }, []);
 
+    const clearFile = useCallback(() => {
+      setFile(undefined);
+    }, []);
+
     const getFile = useCallback(() => file, [file]);
 
     const getImageUrl = useCallback(() => imageUrl, [imageUrl]);
@@ -41,6 +46,7 @@ export const SingleUploadAvatar = forwardRef<SingleUploadAvatarRef, Props>(
       ref,
       () => ({
         clear,
+        clearFile: clearFile,
         getFile,
         getImageUrl,
       }),
