@@ -208,11 +208,16 @@ export class APIClient<T = unknown> {
     });
   }
 
-  put<R = T>(id: string | number, data: Partial<T>): Promise<R> {
+  put<R = T>(
+    id: string | number,
+    data: Partial<T> | FormData,
+    config?: Record<string, unknown>
+  ): Promise<R> {
     return this.request<R>({
       method: 'PUT',
       url: `${this.endpoint}/${id}`,
       data,
+      ...(config || {}),
     });
   }
 
