@@ -18,7 +18,7 @@ export class AuthService extends APIClient<UserInfo> {
   }
 
   signup(data: SignUpReq) {
-    return this.post<void>(data, { endpoint: 'register' });
+    return this.post<UserInfo>(data, { endpoint: 'register' });
   }
 }
 
