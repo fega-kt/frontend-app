@@ -9,6 +9,7 @@ export interface UserToken {
 
 export interface UserInfo extends EntityBase {
   email: string;
+  isActive?: boolean;
   firstName?: string;
   lastName?: string;
   password?: string;

@@ -6,6 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { omit } from 'lodash';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 import { ReturnButton } from './components/ReturnButton';
 import {
   LoginStateEnum,
@@ -39,7 +40,14 @@ function RegisterForm() {
   });
 
   const onFinish = async (values: FormValues) => {
-    await signUpMutation.mutateAsync(omit(values, ['confirmPassword']));
+    const res = await signUpMutation.mutateAsync(
+      omit(values, ['confirmPassword'])
+    );
+    const message = res.isActive
+      ? 'Đăng ký tài khoản thành công'
+      : 'Tài khoản đang chờ kích hoạt';
+    toast.success(message, { position: 'top-right' });
+
     backToLogin();
   };
 
