@@ -1,5 +1,4 @@
 import type { RoleType } from '#/entity';
-import { BasicStatus } from '#/enum';
 import { UserItemList } from '@/api/services/user';
 import { userService } from '@/api/services/user/user.service';
 import { Icon } from '@/components/icon';
@@ -7,6 +6,7 @@ import { usePathname, useRouter } from '@/routes/hooks';
 import { Badge } from '@/ui/badge';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
+import { DepartmentUI } from '@/ui/department';
 import { RenderAvatar } from '@/ui/render-avatar';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
@@ -16,7 +16,7 @@ export const useUsers = () => {
   return useQuery({
     queryKey: ['users'],
     queryFn: () => userService.getList(),
-    staleTime: 1000 * 60, // dữ liệu 1 phút không fetch lại
+    staleTime: 10 * 60, // dữ liệu 10s không fetch lại
     refetchOnWindowFocus: false, // tránh fetch lại khi focus window
   });
 };
@@ -65,14 +65,22 @@ export default function UserPage() {
     },
     {
       title: 'Status',
-      dataIndex: 'status',
+      dataIndex: 'isActive',
       align: 'center',
       width: 120,
-      render: (status) => (
-        <Badge variant={status === BasicStatus.DISABLE ? 'error' : 'success'}>
-          {status === BasicStatus.DISABLE ? 'Disable' : 'Enable'}
+      render: (isActive) => (
+        <Badge variant={isActive ? 'success' : 'error'}>
+          {isActive ? 'Enable' : 'Disable'}
         </Badge>
       ),
+    },
+
+    {
+      title: 'Department',
+      dataIndex: 'department',
+      align: 'left',
+      width: 120,
+      render: (deparment) => <DepartmentUI deparment={deparment} />,
     },
     {
       title: 'Action',

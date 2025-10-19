@@ -131,7 +131,7 @@ axiosInstance.interceptors.response.use(
     }
 
     // ❌ Lỗi khác 401
-    toast.error(errMsg, { position: 'top-center' });
+    toast.error(errMsg, { position: 'top-right' });
     return Promise.reject(error);
   }
 );
