@@ -1,9 +1,9 @@
-import { Department } from '@/api/services/department';
+import { DepartmentEntity } from '@/api/services/department';
 import { cn } from '@/utils';
 import React from 'react';
 
 interface DepartmentProps {
-  deparment?: Department;
+  deparment?: DepartmentEntity;
   className?: string;
 }
 

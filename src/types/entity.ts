@@ -12,6 +12,7 @@ export interface UserInfo extends EntityBase {
   isActive?: boolean;
   firstName?: string;
   lastName?: string;
+  fullName?: string;
   password?: string;
   avatar?: string;
   roles?: Role[];
