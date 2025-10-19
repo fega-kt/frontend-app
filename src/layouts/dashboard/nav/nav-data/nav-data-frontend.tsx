@@ -241,6 +241,11 @@ export const frontendNavData: NavProps['data'] = [
         path: '/management/system/user',
         icon: <Icon icon="local:ic-management" size="24" />,
       },
+      {
+        title: 'sys.nav.system.department',
+        path: '/management/system/department',
+        icon: <Icon icon="mingcute:department-fill" size="24" />,
+      },
     ],
   },
 ];

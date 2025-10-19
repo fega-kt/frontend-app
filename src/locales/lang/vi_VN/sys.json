@@ -125,6 +125,7 @@
         "permission": "Phân quyền",
         "role": "Vai trò",
         "user": "Người dùng",
+        "department": "Phòng ban",
         "user_detail": "Chi tiết người dùng"
       },
       "toast": "Thông báo",
