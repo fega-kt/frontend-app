@@ -1,5 +1,4 @@
 import type { RoleType } from '#/entity';
-import { BasicStatus } from '#/enum';
 import { UserItemList } from '@/api/services/user';
 import { userService } from '@/api/services/user/user.service';
 import { Icon } from '@/components/icon';
@@ -65,12 +64,12 @@ export default function UserPage() {
     },
     {
       title: 'Status',
-      dataIndex: 'status',
+      dataIndex: 'isActive',
       align: 'center',
       width: 120,
-      render: (status) => (
-        <Badge variant={status === BasicStatus.DISABLE ? 'error' : 'success'}>
-          {status === BasicStatus.DISABLE ? 'Disable' : 'Enable'}
+      render: (isActive) => (
+        <Badge variant={isActive ? 'success' : 'error'}>
+          {isActive ? 'Enable' : 'Disable'}
         </Badge>
       ),
     },
