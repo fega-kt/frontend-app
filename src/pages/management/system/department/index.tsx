@@ -8,6 +8,8 @@ import { UserUI } from '@/ui/user';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useCallback, useRef } from 'react';
+import DepartmentDetailModal, { DepartmentDetailModalRef } from './detail';
 
 export const useDepartments = () => {
   return useQuery({
@@ -22,7 +24,13 @@ export default function UserPage() {
   const { push } = useRouter();
   const pathname = usePathname();
   const { data, isLoading, isError } = useDepartments();
+  const departmentDetailModalRef = useRef<DepartmentDetailModalRef>(null);
+
   const departments = data?.data || [];
+
+  const handleAction = useCallback(() => {
+    departmentDetailModalRef.current?.open();
+  }, []);
 
   const columns: ColumnsType<DepartmentEntity> = [
     {
@@ -91,29 +99,39 @@ export default function UserPage() {
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>Departments List</div>
-          <Button onClick={() => {}}>New</Button>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
-          <div>Error loading departments</div>
-        ) : (
-          <Table
-            rowKey="id"
-            size="small"
-            scroll={{ x: 'max-content' }}
-            pagination={false}
-            columns={columns}
-            dataSource={departments}
-          />
-        )}
-      </CardContent>
-    </Card>
+    <>
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>Departments List</div>
+            <Button
+              onClick={() => {
+                handleAction();
+              }}
+            >
+              New
+            </Button>
+          </div>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : isError ? (
+            <div>Error loading departments</div>
+          ) : (
+            <Table
+              rowKey="id"
+              size="small"
+              scroll={{ x: 'max-content' }}
+              pagination={false}
+              columns={columns}
+              dataSource={departments}
+            />
+          )}
+        </CardContent>
+      </Card>
+
+      <DepartmentDetailModal ref={departmentDetailModalRef} />
+    </>
   );
 }
