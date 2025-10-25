@@ -48,7 +48,7 @@ const DepartmentDetailModal = forwardRef<
 
   return (
     <Dialog open={visible} onOpenChange={close}>
-      <DialogContent className="max-w-5xl w-full">
+      <DialogContent className="!max-w-5xl w-full">
         <DialogHeader>
           <DialogTitle>
             {(title ?? departmentId) ? 'Edit department' : 'Add Department'}
