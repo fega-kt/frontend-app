@@ -83,7 +83,13 @@ export default function UserPage() {
           >
             <Icon icon="mdi:card-account-details" size={18} />
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => {}}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              departmentDetailModalRef.current?.open(record.id);
+            }}
+          >
             <Icon icon="solar:pen-bold-duotone" size={18} />
           </Button>
           <Button variant="ghost" size="icon">
