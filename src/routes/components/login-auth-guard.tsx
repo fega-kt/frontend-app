@@ -55,9 +55,12 @@ export default function LoginAuthGuard({ children }: Props) {
   useEffect(() => {
     fetchUserInfo();
 
-    const intervalId = setInterval(() => {
-      fetchUserInfo();
-    }, 60000);
+    const intervalId = setInterval(
+      () => {
+        fetchUserInfo();
+      },
+      15 * 60 * 1000
+    );
 
     return () => clearInterval(intervalId);
   }, [fetchUserInfo]);

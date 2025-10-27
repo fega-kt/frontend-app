@@ -39,17 +39,18 @@ export const RenderAvatar: React.FC<AvatarProps> = ({
   `)}`;
 
   return (
-    <img
-      src={avatar || fallbackSrc}
-      alt={name || 'Avatar'}
-      className={cn(className, 'rounded-full object-cover')}
-      width={size}
-      height={size}
-      onError={(e) => {
-        const target = e.currentTarget;
-        target.onerror = null; // tránh loop
-        target.src = fallbackSrc;
-      }}
-    />
+    <div
+      className={cn('rounded-full overflow-hidden flex-shrink-0', className)}
+      style={{ width: size, height: size }}
+    >
+      <img
+        src={avatar || fallbackSrc}
+        alt={name || 'Avatar'}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          e.currentTarget.src = fallbackSrc;
+        }}
+      />
+    </div>
   );
 };
