@@ -1,5 +1,5 @@
-import { rgbAlpha } from '@/utils/theme';
 import { ThemeColorPresets } from '#/enum';
+import { rgbAlpha } from '@/utils/theme';
 
 export const presetsColors = {
   [ThemeColorPresets.Default]: {
@@ -37,13 +37,13 @@ export const presetsColors = {
     dark: '#B66816',
     darker: '#793908',
   },
-  [ThemeColorPresets.Red]: {
-    lighter: '#FFE3D5',
-    light: '#FF9882',
-    default: '#FF3030',
-    dark: '#B71833',
-    darker: '#7A0930',
-  },
+  // [ThemeColorPresets.Red]: { // bỏ màu đỏ đi để error
+  //   lighter: '#FFE3D5',
+  //   light: '#FF9882',
+  //   default: '#FF3030',
+  //   dark: '#B71833',
+  //   darker: '#7A0930',
+  // },
 };
 
 /**

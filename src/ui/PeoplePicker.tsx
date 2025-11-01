@@ -1,12 +1,13 @@
 import { userService } from '@/api/services/user';
 import { UserInfo } from '@/types/entity';
 import { cn } from '@/utils';
-import { Select } from 'antd';
+import { Select, SelectProps } from 'antd';
 import { compact, uniqBy } from 'lodash';
 import React, { useCallback, useRef, useState } from 'react';
 import { RenderAvatar } from './render-avatar';
 
-interface PeoplePickerProps {
+interface PeoplePickerProps
+  extends Omit<SelectProps<string>, 'options' | 'onChange' | 'value'> {
   className?: string;
   classNameTrigger?: string;
   readonly?: boolean;
@@ -19,6 +20,7 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
   readonly,
   value,
   onChange,
+  ...rest
 }) => {
   const isLoaded = useRef<boolean>(false);
   const [users, setUsers] = useState<UserInfo[]>([]);
@@ -78,6 +80,7 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
             </div>
           ),
         }))}
+        {...rest}
       />
     </div>
   );

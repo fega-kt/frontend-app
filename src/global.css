@@ -30,6 +30,11 @@
   }
 }
 
+.custom-form-item .ant-form-item,
+.custom-form-item [class^='css-dev-only-do-not-override'] .ant-form-item {
+  margin-bottom: 12px !important;
+}
+
 @theme {
   --animate-collapsible-down: collapsible-down 0.2s ease-in-out;
   --animate-collapsible-up: collapsible-up 0.2s ease-in-out;
