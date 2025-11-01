@@ -3,9 +3,8 @@ import healthCheckerService from '@/api/services/health-checker/health-checker.s
 import Page503 from '@/pages/sys/error/Page503';
 import PageLoading from '@/pages/sys/error/PageLoading';
 import { useUserActions, useUserToken } from '@/store/userStore';
-import ModalFullScreenCustom, {
-  ModalFullScreenCustomRef,
-} from '@/ui/modal-fullscreen-custom';
+
+import ModalWrapper, { ModalWrapperRef } from '@/ui/ModalWrapper';
 import { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from '../hooks';
 
@@ -15,7 +14,7 @@ type Props = {
 export default function LoginAuthGuard({ children }: Props) {
   const router = useRouter();
   const { accessToken } = useUserToken();
-  const modalFullScreenCustom = useRef<ModalFullScreenCustomRef>(null);
+  const modalWrapperRef = useRef<ModalWrapperRef>(null);
   const isLoaded = useRef<boolean>(false);
 
   const [comp, setComp] = useState<ReactNode>(null);
@@ -32,17 +31,17 @@ export default function LoginAuthGuard({ children }: Props) {
   const { setUserInfo } = useUserActions();
 
   const fetchUserInfo = useCallback(async () => {
-    const visible = modalFullScreenCustom.current?.getVisible();
+    const visible = modalWrapperRef.current?.getVisible();
     try {
       setComp(<PageLoading />);
       if (!visible && !isLoaded.current) {
-        modalFullScreenCustom.current?.open();
+        modalWrapperRef.current?.open();
       }
 
       await healthCheckerService.healthDatabase();
       const userInfo = await authService.me();
       setUserInfo(userInfo);
-      modalFullScreenCustom.current?.close();
+      modalWrapperRef.current?.close();
     } catch {
       if (!visible && isLoaded.current) {
         setComp(<Page503 />);
@@ -72,9 +71,9 @@ export default function LoginAuthGuard({ children }: Props) {
   return (
     <>
       {children}
-      <ModalFullScreenCustom ref={modalFullScreenCustom}>
+      <ModalWrapper ref={modalWrapperRef} isfullScreen>
         {comp}
-      </ModalFullScreenCustom>
+      </ModalWrapper>
     </>
   );
 }

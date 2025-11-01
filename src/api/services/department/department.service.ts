@@ -14,6 +14,18 @@ export class DepartmentService extends APIClient<DepartmentEntity> {
       take: 10,
     });
   }
+
+  update(id: string, data: Partial<DepartmentEntity>) {
+    return this.put(id, this.normalized(data, ['manager', 'deputy', 'parent']));
+  }
+
+  add(data: Partial<DepartmentEntity>) {
+    return this.post(this.normalized(data, ['manager', 'deputy', 'parent']));
+  }
+
+  dataTree() {
+    return this.get<DepartmentEntity[]>({ endpoint: 'tree' });
+  }
 }
 
 export const departmentService = new DepartmentService();
