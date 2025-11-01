@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Result } from '#/api';
 import { ResultStatus } from '#/enum';
 import { GLOBAL_CONFIG } from '@/global-config';
@@ -9,6 +10,7 @@ import axios, {
   type AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { Dictionary } from 'lodash';
 import { toast } from 'sonner';
 
 export interface PaginateResult<T> {
@@ -158,6 +160,23 @@ export class APIClient<T = unknown> {
   constructor(options: APIClientOptions) {
     this.endpoint = options.endpoint;
     this.populateKeys = options.populateKeys;
+  }
+
+  normalized<Entity>(entity: any, populateKeys: (keyof Entity)[]) {
+    const processedEntity: Dictionary<any> = {};
+    Object.keys(entity).forEach((key) => {
+      let value = (entity as Dictionary<any>)[key];
+      // những property mà được khai báo là populate thì sẽ được convert thành id khi upload lên server
+      if (value && (populateKeys || []).includes(key as keyof Entity)) {
+        if (Array.isArray(value)) {
+          value = value.map((v) => (typeof v === 'object' && v.id ? v.id : v));
+        } else if (typeof value === 'object') {
+          value = value.id ? value.id : value;
+        }
+      }
+      processedEntity[key] = value;
+    });
+    return processedEntity;
   }
 
   get<R = T>(

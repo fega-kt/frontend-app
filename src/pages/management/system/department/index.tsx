@@ -4,7 +4,7 @@ import { Icon } from '@/components/icon';
 import { usePathname, useRouter } from '@/routes/hooks';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
-import { UserUI } from '@/ui/user';
+import { PeoplePicker } from '@/ui/PeoplePicker';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
@@ -23,14 +23,20 @@ export const useDepartments = () => {
 export default function UserPage() {
   const { push } = useRouter();
   const pathname = usePathname();
-  const { data, isLoading, isError } = useDepartments();
+  const { data, isLoading, isError, refetch } = useDepartments();
   const departmentDetailModalRef = useRef<DepartmentDetailModalRef>(null);
 
   const departments = data?.data || [];
 
-  const handleAction = useCallback(() => {
-    departmentDetailModalRef.current?.open();
-  }, []);
+  const handleAction = useCallback(
+    async (id?: string) => {
+      const res = await departmentDetailModalRef.current?.open(id);
+      if (res?.hasChange) {
+        refetch();
+      }
+    },
+    [refetch]
+  );
 
   const columns: ColumnsType<DepartmentEntity> = [
     {
@@ -55,7 +61,7 @@ export default function UserPage() {
       dataIndex: 'manager',
       width: 300,
       render: (manager) => {
-        return <UserUI user={manager} />;
+        return <PeoplePicker value={manager} disabled size={24} />;
       },
     },
     {
@@ -63,7 +69,7 @@ export default function UserPage() {
       dataIndex: 'deputy',
       width: 300,
       render: (deputy) => {
-        return <UserUI user={deputy} />;
+        return <PeoplePicker value={deputy} disabled size={24} />;
       },
     },
 
@@ -87,7 +93,7 @@ export default function UserPage() {
             variant="ghost"
             size="icon"
             onClick={() => {
-              departmentDetailModalRef.current?.open(record.id);
+              handleAction(record.id);
             }}
           >
             <Icon icon="solar:pen-bold-duotone" size={18} />
