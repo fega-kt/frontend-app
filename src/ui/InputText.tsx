@@ -1,12 +1,15 @@
 import { cn } from '@/utils';
-import { Input as AntInput } from 'antd';
+import { Input } from 'antd';
 import React from 'react';
 
-export type InputProps = React.ComponentProps<typeof AntInput>;
+export type InputProps = React.ComponentProps<typeof Input>;
 
-export function InputText({ className, ...props }: InputProps) {
+export function InputText({ className, disabled, ...props }: InputProps) {
+  if (disabled) {
+    return <div>{props.value}</div>;
+  }
   return (
-    <AntInput
+    <Input
       className={cn(
         // giữ lại các style gần tương đương từ bản gốc
         'h-9 rounded-md text-base md:text-sm transition-all',

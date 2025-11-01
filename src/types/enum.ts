@@ -33,7 +33,7 @@ export enum ThemeColorPresets {
   Purple = 'purple',
   Blue = 'blue',
   Orange = 'orange',
-  Red = 'red',
+  // Red = 'red',
 }
 
 export enum LocalEnum {
