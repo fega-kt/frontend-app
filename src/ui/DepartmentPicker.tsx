@@ -1,7 +1,7 @@
 import { DepartmentEntity } from '@/api/services/department';
 import { departmentService } from '@/api/services/department/department.service';
 import { cn } from '@/utils';
-import { buildTree } from '@/utils/tree';
+import { convertFlatToTree } from '@/utils/tree';
 import { TreeSelect, TreeSelectProps } from 'antd';
 import {
   forwardRef,
@@ -23,6 +23,11 @@ interface DepartmentProps
 
 export interface DepartmentDetailRef {
   setData: (data?: DepartmentEntity) => void;
+}
+
+interface DepartmentTree extends DepartmentEntity {
+  children?: DepartmentTree[];
+  parentId: string;
 }
 
 export const DepartmentPicker = forwardRef<
@@ -64,10 +69,19 @@ export const DepartmentPicker = forwardRef<
       []
     );
 
-    const treeData = useMemo(
-      () => buildTree(departments, itemDisabled),
-      [departments, itemDisabled]
-    );
+    const treeData = useMemo(() => {
+      const data = (departments || []).map((it) => {
+        return {
+          ...it,
+          parentId: it.parent?.id || '',
+          disabled:
+            itemDisabled?.path && it.path
+              ? it.path.startsWith(itemDisabled.path)
+              : false,
+        };
+      });
+      return convertFlatToTree<DepartmentTree>(data);
+    }, [departments, itemDisabled]);
 
     if (readonly) {
       return (
@@ -96,6 +110,10 @@ export const DepartmentPicker = forwardRef<
           }}
           onFocus={handleOnFocus}
           treeData={treeData}
+          fieldNames={{
+            label: 'name',
+            value: 'id',
+          }}
           {...rest}
         />
       </div>
