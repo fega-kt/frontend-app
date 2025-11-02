@@ -132,6 +132,7 @@ const DepartmentDetailModal = forwardRef<
       ref={modalWrapperRef}
       title={departmentId ? 'Edit department' : 'Add Department'}
       closable
+      hasTag
       width={window.innerWidth - 10 > 1200 ? 1000 : window.innerWidth - 10}
     >
       <Spin spinning={loading}>

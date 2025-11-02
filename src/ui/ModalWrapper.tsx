@@ -11,10 +11,11 @@ export interface ModalWrapperRef {
 
 interface ModalWrapperProps extends ModalProps {
   isfullScreen?: boolean;
+  hasTag?: boolean;
 }
 
 const ModalWrapper = forwardRef<ModalWrapperRef, ModalWrapperProps>(
-  ({ title, isfullScreen, children, className, ...rest }, ref) => {
+  ({ title, isfullScreen, children, className, hasTag, ...rest }, ref) => {
     const [visible, setVisible] = useState<boolean>();
 
     const close = useCallback(() => {
@@ -51,6 +52,8 @@ const ModalWrapper = forwardRef<ModalWrapperRef, ModalWrapperProps>(
               : ' bg-[#fff]'
           )}
         >
+          {hasTag ? <hr /> : null}
+
           {children}
         </div>
       </Modal>

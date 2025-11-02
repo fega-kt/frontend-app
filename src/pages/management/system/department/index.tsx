@@ -12,6 +12,8 @@ import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useMemo, useRef } from 'react';
 import DepartmentDetailModal, { DepartmentDetailModalRef } from './detail';
 
+import DeleteModal, { DeleteModalRef } from '@/ui/DeleteModal';
+import { cn } from '@/utils';
 import style from './department.module.scss';
 export const useDepartments = () => {
   return useQuery({
@@ -29,11 +31,22 @@ interface DepartmentTree extends DepartmentEntity {
 export default function UserPage() {
   const { data: departments, isLoading, isError, refetch } = useDepartments();
   const departmentDetailModalRef = useRef<DepartmentDetailModalRef>(null);
+  const deleteModalRef = useRef<DeleteModalRef>(null);
 
   const handleAction = useCallback(
     async (id?: string) => {
       const res = await departmentDetailModalRef.current?.open(id);
       if (res?.hasChange) {
+        refetch();
+      }
+    },
+    [refetch]
+  );
+
+  const handleDelete = useCallback(
+    async (id: string) => {
+      const res = await deleteModalRef.current?.open(id);
+      if (res?.deleted) {
         refetch();
       }
     },
@@ -95,7 +108,14 @@ export default function UserPage() {
             <Icon icon="solar:pen-bold-duotone" size={18} />
           </Button>
 
-          <Button variant="ghost" size="icon" disabled={isLoading}>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={isLoading}
+            onClick={() => {
+              handleDelete(record.id);
+            }}
+          >
             <Icon
               icon="mingcute:delete-2-fill"
               size={18}
@@ -146,30 +166,20 @@ export default function UserPage() {
               columns={columns}
               dataSource={treeData}
               expandable={{
-                expandIcon: ({ expanded, onExpand, record }) =>
-                  expanded ? (
-                    record.children?.length ? (
-                      <span
-                        className="align-middle cursor-pointer flex items-center justify-center"
-                        onClick={(e) => {
-                          onExpand(record, e);
-                        }}
-                      >
-                        {iconExpanded}
-                      </span>
-                    ) : null
-                  ) : record.children?.length ? (
-                    <span
-                      className="align-middle cursor-pointer flex items-center justify-center"
-                      onClick={(e) => {
-                        onExpand(record, e);
-                      }}
-                    >
-                      {iconCollapsed}
-                    </span>
-                  ) : (
-                    <span style={{ marginRight: 18 }} />
-                  ),
+                defaultExpandAllRows: true,
+                expandIcon: ({ expanded, onExpand, record }) => (
+                  <span
+                    className={cn(
+                      `align-middle cursor-pointer flex items-center justify-center`,
+                      record.children?.length ? 'visible' : 'invisible'
+                    )}
+                    onClick={(e) => {
+                      onExpand(record, e);
+                    }}
+                  >
+                    {expanded ? iconExpanded : iconCollapsed}
+                  </span>
+                ),
               }}
             />
           )}
@@ -177,6 +187,7 @@ export default function UserPage() {
       </Card>
 
       <DepartmentDetailModal ref={departmentDetailModalRef} />
+      <DeleteModal ref={deleteModalRef} service={departmentService} />
     </>
   );
 }
