@@ -1,0 +1,9 @@
+.customDepartmentList {
+  :global {
+    .ant-table-row .ant-table-cell .ant-table-row-indent + span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+}
