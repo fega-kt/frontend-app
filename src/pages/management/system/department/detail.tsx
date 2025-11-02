@@ -3,7 +3,7 @@ import { departmentService } from '@/api/services/department/department.service'
 import { col_1_1_1_1, formItemLayout } from '@/constant';
 import { UserInfo } from '@/types/entity';
 import { Button } from '@/ui/button';
-import { DepartmentDetailRef, DepartmentPicker } from '@/ui/Department';
+import { DepartmentDetailRef, DepartmentPicker } from '@/ui/DepartmentPicker';
 import { DialogFooter } from '@/ui/dialog';
 import { InputText } from '@/ui/InputText';
 import ModalWrapper, { ModalWrapperRef } from '@/ui/ModalWrapper';

@@ -1,32 +1,34 @@
 import { DepartmentEntity } from '@/api/services/department';
 import { departmentService } from '@/api/services/department/department.service';
 import { Icon } from '@/components/icon';
-import { usePathname, useRouter } from '@/routes/hooks';
+import { iconCollapsed, iconExpanded } from '@/components/icon/icon';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import { PeoplePicker } from '@/ui/PeoplePicker';
+import { convertFlatToTree } from '@/utils/tree';
 import { useQuery } from '@tanstack/react-query';
 import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import DepartmentDetailModal, { DepartmentDetailModalRef } from './detail';
 
+import style from './department.module.scss';
 export const useDepartments = () => {
   return useQuery({
-    queryKey: ['users'],
-    queryFn: () => departmentService.getList(),
+    queryKey: ['organizational_structure'],
+    queryFn: () => departmentService.dataTree(),
     staleTime: 10 * 60, // dữ liệu 10s không fetch lại
     refetchOnWindowFocus: false, // tránh fetch lại khi focus window
   });
 };
 
+interface DepartmentTree extends DepartmentEntity {
+  children?: DepartmentTree[];
+  parentId: string;
+}
 export default function UserPage() {
-  const { push } = useRouter();
-  const pathname = usePathname();
-  const { data, isLoading, isError, refetch } = useDepartments();
+  const { data: departments, isLoading, isError, refetch } = useDepartments();
   const departmentDetailModalRef = useRef<DepartmentDetailModalRef>(null);
-
-  const departments = data?.data || [];
 
   const handleAction = useCallback(
     async (id?: string) => {
@@ -38,13 +40,15 @@ export default function UserPage() {
     [refetch]
   );
 
-  const columns: ColumnsType<DepartmentEntity> = [
+  const columns: ColumnsType<DepartmentTree> = [
     {
       title: 'Name',
       dataIndex: 'name',
       width: 300,
+      ellipsis: true,
+
       render: (name) => {
-        return <div className="flex">{name}</div>;
+        return <span>{name}</span>;
       },
     },
     {
@@ -83,22 +87,15 @@ export default function UserPage() {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => {
-              push(`${pathname}/${record.id}`);
-            }}
-          >
-            <Icon icon="mdi:card-account-details" size={18} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
+            disabled={isLoading}
             onClick={() => {
               handleAction(record.id);
             }}
           >
             <Icon icon="solar:pen-bold-duotone" size={18} />
           </Button>
-          <Button variant="ghost" size="icon">
+
+          <Button variant="ghost" size="icon" disabled={isLoading}>
             <Icon
               icon="mingcute:delete-2-fill"
               size={18}
@@ -110,12 +107,22 @@ export default function UserPage() {
     },
   ];
 
+  const treeData = useMemo(() => {
+    const data = (departments || []).map((it) => {
+      return {
+        ...it,
+        parentId: it.parent?.id || '',
+      };
+    });
+    return convertFlatToTree<DepartmentTree>(data);
+  }, [departments]);
+
   return (
     <>
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <div>Departments List</div>
+            <div>Organizational structure</div>
             <Button
               onClick={() => {
                 handleAction();
@@ -125,11 +132,11 @@ export default function UserPage() {
             </Button>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className={style.customDepartmentList}>
           {isLoading ? (
             <div>Loading...</div>
           ) : isError ? (
-            <div>Error loading departments</div>
+            <div>Error loading organizational structure</div>
           ) : (
             <Table
               rowKey="id"
@@ -137,7 +144,33 @@ export default function UserPage() {
               scroll={{ x: 'max-content' }}
               pagination={false}
               columns={columns}
-              dataSource={departments}
+              dataSource={treeData}
+              expandable={{
+                expandIcon: ({ expanded, onExpand, record }) =>
+                  expanded ? (
+                    record.children?.length ? (
+                      <span
+                        className="align-middle cursor-pointer flex items-center justify-center"
+                        onClick={(e) => {
+                          onExpand(record, e);
+                        }}
+                      >
+                        {iconExpanded}
+                      </span>
+                    ) : null
+                  ) : record.children?.length ? (
+                    <span
+                      className="align-middle cursor-pointer flex items-center justify-center"
+                      onClick={(e) => {
+                        onExpand(record, e);
+                      }}
+                    >
+                      {iconCollapsed}
+                    </span>
+                  ) : (
+                    <span style={{ marginRight: 24 }} />
+                  ),
+              }}
             />
           )}
         </CardContent>

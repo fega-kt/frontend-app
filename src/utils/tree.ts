@@ -1,3 +1,4 @@
+import { DepartmentEntity } from '@/api/services/department';
 import { chain } from 'ramda';
 
 /**
@@ -60,4 +61,68 @@ export function convertFlatToTree<T extends { id: string; parentId: string }>(
   }
 
   return result;
+}
+
+interface RawNode {
+  id: string;
+  name: string;
+  parent?: RawNode | null;
+  children?: NodeWithChildren[];
+  path: string;
+}
+
+type NodeWithChildren = RawNode & { children: RawNode[] };
+
+interface TreeSelectNode {
+  title: string;
+  value: string;
+  key: string;
+  id: string;
+  path: string;
+  children?: TreeSelectNode[];
+  disabled?: boolean;
+}
+
+function transform(
+  node: NodeWithChildren,
+  itemDisabled?: DepartmentEntity
+): TreeSelectNode {
+  const { id, name, children, path, ...rest } = node;
+
+  return {
+    ...rest,
+    title: name,
+    value: id,
+    key: id,
+    id,
+    path,
+    children: children?.length
+      ? children.map((n) => transform(n, itemDisabled))
+      : [],
+    disabled: itemDisabled?.path ? path.startsWith(itemDisabled.path) : false,
+  };
+}
+
+export function buildTree(
+  nodes: RawNode[],
+  itemDisabled?: DepartmentEntity
+): TreeSelectNode[] {
+  const map = new Map<string, NodeWithChildren>();
+  const roots: NodeWithChildren[] = [];
+  nodes.forEach((node) => map.set(node.id, { ...node, children: [] }));
+
+  nodes.forEach((node) => {
+    const currentNode = map.get(node.id)!;
+    if (node.parent?.id && node.parent.id !== node.id) {
+      const parentNode = map.get(node.parent.id);
+
+      if (parentNode) {
+        parentNode.children.push(currentNode);
+      }
+    } else {
+      roots.push(currentNode);
+    }
+  });
+
+  return roots.map((n) => transform(n, itemDisabled));
 }
