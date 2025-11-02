@@ -168,7 +168,7 @@ export default function UserPage() {
                       {iconCollapsed}
                     </span>
                   ) : (
-                    <span style={{ marginRight: 24 }} />
+                    <span style={{ marginRight: 18 }} />
                   ),
               }}
             />
