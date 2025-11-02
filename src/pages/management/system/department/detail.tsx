@@ -93,7 +93,7 @@ const DepartmentDetailModal = forwardRef<
         }
       }
     },
-    [form]
+    [close, form]
   );
 
   useImperativeHandle(ref, () => ({
@@ -125,7 +125,7 @@ const DepartmentDetailModal = forwardRef<
     } finally {
       setLoading(false);
     }
-  }, [form, departmentId]);
+  }, [close, departmentId, form]);
 
   return (
     <ModalWrapper
