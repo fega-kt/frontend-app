@@ -3,17 +3,17 @@ import {
   SingleUploadAvatar,
   SingleUploadAvatarRef,
 } from '@/components/upload/single-upload-avatar';
+import { col_1_1_1_1, formItemLayout_24 } from '@/constant';
 import { useUserActions, useUserInfo } from '@/store/userStore';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardFooter } from '@/ui/card';
-import { Form, FormControl, FormField, FormItem, FormLabel } from '@/ui/form';
-import { Input } from '@/ui/input';
+import { DepartmentPicker } from '@/ui/DepartmentPicker';
+import { InputText } from '@/ui/InputText';
 import { Switch } from '@/ui/switch';
-import { Textarea } from '@/ui/textarea';
 import { Text } from '@/ui/typography';
-import { faker } from '@faker-js/faker';
+import { Col, Form } from 'antd';
+import { useForm } from 'antd/es/form/Form';
 import { useCallback, useRef } from 'react';
-import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 type FieldType = {
@@ -28,23 +28,13 @@ type FieldType = {
 
 export default function GeneralTab() {
   const singleUploadAvatarRef = useRef<SingleUploadAvatarRef>(null);
-  const { avatar, email, id } = useUserInfo();
+  const { avatar, email, id, firstName, lastName, department } = useUserInfo();
   const { setUserInfo } = useUserActions();
 
-  const form = useForm<FieldType>({
-    defaultValues: {
-      // name: username,
-      email,
-      phone: faker.phone.number(),
-      address: faker.location.county(),
-      city: faker.location.city(),
-      code: faker.location.zipCode(),
-      about: faker.lorem.paragraphs(),
-    },
-  });
+  const [form] = useForm<FieldType>();
 
   const handleClick = useCallback(async () => {
-    console.log(form.getValues());
+    console.log(form.getFieldsValue());
     const file = singleUploadAvatarRef.current?.getFile();
     if (id) {
       try {
@@ -60,7 +50,7 @@ export default function GeneralTab() {
         toast.error('Update error!');
       }
     }
-  }, [form]);
+  }, [form, id, setUserInfo]);
 
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
@@ -84,96 +74,41 @@ export default function GeneralTab() {
       <div className="col-span-1">
         <Card>
           <CardContent>
-            <Form {...form}>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
+            <Form
+              form={form}
+              {...formItemLayout_24}
+              labelAlign="left"
+              className="custom-form-item"
+              initialValues={{ email, firstName, lastName, department }}
+            >
+              <Col {...col_1_1_1_1} className="mt-3">
+                <Form.Item
+                  label={'Email'}
                   name="email"
-                  disabled
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Phone</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Address</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="city"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>City</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="code"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Code</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
-              <div className="mt-4">
-                <FormField
-                  control={form.control}
-                  name="about"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>About</FormLabel>
-                      <FormControl>
-                        <Textarea {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
-              </div>
+                  rules={[{ required: true, message: '', whitespace: true }]}
+                >
+                  <InputText disabled />
+                </Form.Item>
+                <Form.Item
+                  label={'First name'}
+                  name="firstName"
+                  rules={[{ required: true, message: '', whitespace: true }]}
+                >
+                  <InputText />
+                </Form.Item>
+
+                <Form.Item
+                  label={'Last name'}
+                  name="lastName"
+                  rules={[{ required: true, message: '', whitespace: true }]}
+                >
+                  <InputText />
+                </Form.Item>
+
+                <Form.Item label={'Department'} name="department">
+                  <DepartmentPicker allowClear readonly />
+                </Form.Item>
+              </Col>
             </Form>
           </CardContent>
           <CardFooter className="flex justify-end">
