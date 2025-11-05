@@ -1,6 +1,7 @@
 import { EntityBase } from '@/api/entity-base';
 import type { NavItemDataProps } from '@/components/nav/types';
 import type { BasicStatus, PermissionType } from './enum';
+import { DepartmentEntity } from '@/api/services/department';
 
 export interface UserToken {
   accessToken?: string;
@@ -20,6 +21,7 @@ export interface UserInfo extends EntityBase {
   permissions?: Permission[];
   menu?: MenuTree[];
   role: RoleType;
+  department?: DepartmentEntity;
 }
 
 export enum RoleType {

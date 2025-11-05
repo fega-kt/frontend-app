@@ -36,3 +36,27 @@ export const formItemLayout = {
     md: { span: 20 },
   },
 };
+
+export const formItemLayout_10 = {
+  labelCol: {
+    xs: { span: 10 },
+    sm: { span: 8 },
+    md: { span: 6 },
+  },
+  wrapperCol: {
+    xs: { span: 14 },
+    sm: { span: 16 },
+    md: { span: 18 },
+  },
+};
+
+export const formItemLayout_24 = {
+  labelCol: {
+    sm: { span: 24 },
+    md: { span: 8 },
+  },
+  wrapperCol: {
+    sm: { span: 24 },
+    md: { span: 16 },
+  },
+};
