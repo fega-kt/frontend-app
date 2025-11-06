@@ -92,7 +92,7 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
         </HoverCard>
       );
     },
-    [size]
+    [className, size]
   );
 
   if (disabled) {
