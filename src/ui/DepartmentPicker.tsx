@@ -11,6 +11,8 @@ import {
   useRef,
   useState,
 } from 'react';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from './hover-card';
+import { RenderAvatar } from './render-avatar';
 
 interface DepartmentProps
   extends Omit<TreeSelectProps<string>, 'options' | 'onChange' | 'value'> {
@@ -69,12 +71,80 @@ export const DepartmentPicker = forwardRef<
       [departments, itemDisabled]
     );
 
+    const renderDepartment = useCallback(
+      (department?: DepartmentEntity) => {
+        if (!department) return null;
+        return (
+          <div className={cn(className, 'items-center')}>
+            <HoverCard openDelay={10}>
+              <HoverCardTrigger asChild>
+                <span className="text-sm">{department.name}</span>
+              </HoverCardTrigger>
+              <HoverCardContent side={'top'} align="center">
+                <div className="w-full max-w-lg p-4 shadow-md border rounded-md bg-white dark:bg-gray-900 ">
+                  <div className="grid gap-2">
+                    {/* Row 1 */}
+                    <div className="grid grid-cols-[100px_1fr] items-center gap-4 border-b border-gray-200 dark:border-gray-700 pb-3">
+                      <div className="text-gray-500 dark:text-gray-400 font-medium">
+                        Tên Phòng ban
+                      </div>
+                      <div className="text-gray-900 dark:text-gray-100 font-semibold">
+                        {department.name}
+                      </div>
+                    </div>
+
+                    {/* Row 2 */}
+                    {department.manager ? (
+                      <div className="grid grid-cols-[100px_1fr] items-center gap-4 border-b border-gray-200 dark:border-gray-700 pb-3">
+                        <div className="text-gray-500 dark:text-gray-400 font-medium">
+                          Trưởng phòng
+                        </div>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <RenderAvatar
+                            avatar={department.manager?.avatar}
+                            size={28}
+                            className="rounded-full"
+                            name={department.manager?.fullName}
+                          />
+                          <span className="text-gray-900 dark:text-gray-100 font-medium truncate">
+                            {department.manager?.fullName}
+                          </span>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {/* Row 3 */}
+
+                    {department.deputy ? (
+                      <div className="grid grid-cols-[100px_1fr] items-center gap-4">
+                        <div className="text-gray-500 dark:text-gray-400 font-medium">
+                          Phó Phòng
+                        </div>
+                        <div className="flex items-center gap-2 min-w-0">
+                          <RenderAvatar
+                            avatar={department.deputy?.avatar}
+                            size={28}
+                            className="rounded-full"
+                            name={department.deputy?.fullName}
+                          />
+                          <span className="text-gray-900 dark:text-gray-100 font-medium truncate">
+                            {department.deputy?.fullName}
+                          </span>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
+        );
+      },
+      [className]
+    );
+
     if (readonly) {
-      return (
-        <>
-          <div className={cn(className, 'items-center')}>{value?.name}</div>
-        </>
-      );
+      return <>{renderDepartment(value)}</>;
     }
 
     return (
