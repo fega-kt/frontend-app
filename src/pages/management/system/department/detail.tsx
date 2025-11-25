@@ -141,6 +141,7 @@ const DepartmentDetailModal = forwardRef<
           {...formItemLayout}
           labelAlign="left"
           className="custom-form-item"
+          autoComplete="off"
         >
           <Col {...col_1_1_1_1} className="mt-3">
             <Form.Item

@@ -18,8 +18,8 @@ export function NavGroup({ name, items }: NavGroupProps) {
       <CollapsibleTrigger asChild>
         <Group name={name} open={open} onClick={toggleOpen} />
       </CollapsibleTrigger>
-      <CollapsibleContent>
-        <ul className="flex w-full flex-col gap-1 ring-1 ring-[#d9d9d9] ring-inset rounded p-2">
+      <CollapsibleContent className="">
+        <ul className="flex w-full flex-col gap-1 border rounded-md p-2">
           {items.map((item, index) => (
             <NavList key={item.title || index} data={item} depth={1} />
           ))}

@@ -31,10 +31,10 @@ const ModalWrapper = forwardRef<ModalWrapperRef, ModalWrapperProps>(
     return (
       <Modal
         className={cn(
-          '!border-0',
+          '!border-0 custom-modal-antd',
           isfullScreen
             ? 'ct_ant_modal_content !max-w-full !h-full !rounded-none !top-0 xsm:!m-0'
-            : '',
+            : '!border rounded-md',
           className
         )}
         width={isfullScreen ? '100%' : ''}
@@ -47,9 +47,7 @@ const ModalWrapper = forwardRef<ModalWrapperRef, ModalWrapperProps>(
       >
         <div
           className={cn(
-            isfullScreen
-              ? 'h-full flex items-center justify-center'
-              : ' bg-[#fff]'
+            isfullScreen ? 'h-full flex items-center justify-center' : ''
           )}
         >
           {hasTag ? <hr /> : null}
