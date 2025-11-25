@@ -1,15 +1,9 @@
-import Logo from '@/components/logo';
+import { ThemeLayout } from '#/enum';
 import { down, useMediaQuery } from '@/hooks';
 import { useSettings } from '@/store/settingStore';
-import { ThemeLayout } from '#/enum';
 import Header from './header';
 import Main from './main';
-import {
-  NavHorizontalLayout,
-  NavMobileLayout,
-  NavVerticalLayout,
-  useFilteredNavData,
-} from './nav';
+import { NavMobileLayout, NavVerticalLayout, useFilteredNavData } from './nav';
 
 export default function DashboardLayout() {
   const isMobile = useMediaQuery(down('md'));
@@ -36,25 +30,25 @@ function MobileLayout() {
 }
 
 function PcLayout() {
-  const { themeLayout } = useSettings();
+  // const { themeLayout } = useSettings();
 
-  if (themeLayout === ThemeLayout.Horizontal) return <PcHorizontalLayout />;
+  // if (themeLayout === ThemeLayout.Horizontal) return <PcHorizontalLayout />;
   return <PcVerticalLayout />;
 }
 
-function PcHorizontalLayout() {
-  const navData = useFilteredNavData();
-  return (
-    <>
-      {/* Sticky Header */}
-      <Header leftSlot={<Logo />} />
-      {/* Sticky Nav */}
-      <NavHorizontalLayout data={navData} />
+// function PcHorizontalLayout() {
+//   const navData = useFilteredNavData();
+//   return (
+//     <>
+//       {/* Sticky Header */}
+//       <Header leftSlot={<Logo />} />
+//       {/* Sticky Nav */}
+//       <NavHorizontalLayout data={navData} />
 
-      <Main />
-    </>
-  );
-}
+//       <Main />
+//     </>
+//   );
+// }
 
 function PcVerticalLayout() {
   const settings = useSettings();

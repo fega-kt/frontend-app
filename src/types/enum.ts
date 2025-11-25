@@ -23,7 +23,7 @@ export enum ThemeMode {
 
 export enum ThemeLayout {
   Vertical = 'vertical',
-  Horizontal = 'horizontal',
+  // Horizontal = 'horizontal',
   Mini = 'mini',
 }
 
