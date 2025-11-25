@@ -65,7 +65,7 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
             </div>
           </HoverCardTrigger>
           <HoverCardContent side={'top'} align="center">
-            <div className="inline-block p-4 bg-white rounded-md shadow-md border border-gray-200 max-w-xs min-w-full ">
+            <div className="inline-block p-4 bg-white dark:bg-gray-900 rounded-md shadow-md border max-w-xs min-w-full ">
               <div className="flex items-center space-x-4 mb-3">
                 <RenderAvatar
                   avatar={data.avatar}
@@ -73,18 +73,28 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
                   className="rounded-full"
                   name={data.fullName}
                 />
-                <div className="text-gray-900 font-semibold text-lg">
+                <div className="text-gray-500 dark:text-gray-400font-semibold text-lg">
                   {data.fullName}
                 </div>
               </div>
               <div className="text-gray-600 text-sm space-y-1">
                 <div>
-                  <span className="font-medium text-gray-800">Ngày sinh:</span>{' '}
-                  18/11/1998
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
+                    Ngày sinh:
+                  </span>{' '}
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {' '}
+                    18/11/1998
+                  </span>
                 </div>
                 <div>
-                  <span className="font-medium text-gray-800">Quê quán:</span>{' '}
-                  Hà Tĩnh
+                  <span className="font-medium text-gray-900 dark:text-gray-100">
+                    Quê quán:
+                  </span>{' '}
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {' '}
+                    Hà Tĩnh
+                  </span>
                 </div>
               </div>
             </div>

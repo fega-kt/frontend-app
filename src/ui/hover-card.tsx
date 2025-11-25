@@ -37,9 +37,9 @@ function HoverCardContent({
           data-[side=left]:slide-in-from-right-2
           data-[side=right]:slide-in-from-left-2
           data-[side=top]:slide-in-from-bottom-2 z-50 w-64
-          origin-(--radix-hover-card-content-transform-origin) border shadow-md
-          outline-hidden min-w-[300px] rounded-md bg-gradient-to-b from-gray-200
-          to-gray-100 p-[1px]
+          origin-(--radix-hover-card-content-transform-origin) shadow-md
+          outline-hidden min-w-[300px] rounded-md
+          to-gray-100
           shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px]
           data-[state=open]:transition-all`,
           className
@@ -50,7 +50,7 @@ function HoverCardContent({
 
         {/* ✅ thêm mũi tên ở cuối */}
         <div className="relative w-full flex justify-center">
-          <HoverCardPrimitive.Arrow className="fill-white" />
+          <HoverCardPrimitive.Arrow className="fill-white dark:fill-gray-900" />
         </div>
       </HoverCardPrimitive.Content>
     </HoverCardPrimitive.Portal>
