@@ -28,9 +28,9 @@ import { Text } from '@/ui/typography';
 import { cn } from '@/utils';
 import { type CSSProperties, useCallback, useEffect, useState } from 'react';
 
+import { type ThemeColorPresets, ThemeLayout, ThemeMode } from '#/enum';
 import { useTranslation } from 'react-i18next';
 import screenfull from 'screenfull';
-import { type ThemeColorPresets, ThemeLayout, ThemeMode } from '#/enum';
 
 export default function SettingButton() {
   const { t } = useTranslation();
@@ -163,7 +163,7 @@ export default function SettingButton() {
             <div className="flex flex-col gap-2">
               <Text variant="subTitle1">{t('sys.settings.layout')}</Text>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 {/* vertical */}
                 <Card
                   onClick={() =>
@@ -249,7 +249,7 @@ export default function SettingButton() {
                 </Card>
 
                 {/* horizontal */}
-                <Card
+                {/* <Card
                   onClick={() =>
                     updateSettings({ themeLayout: ThemeLayout.Horizontal })
                   }
@@ -292,7 +292,7 @@ export default function SettingButton() {
                       }}
                     />
                   </div>
-                </Card>
+                </Card> */}
               </div>
               <div className="flex flex-row items-center justify-between">
                 <Tooltip

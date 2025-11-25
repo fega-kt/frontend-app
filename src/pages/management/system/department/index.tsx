@@ -95,6 +95,7 @@ export default function UserPage() {
       key: 'operation',
       align: 'center',
       width: 100,
+      fixed: 'right',
       render: (_, record) => (
         <div className="flex w-full justify-center text-gray-500">
           <Button
@@ -161,7 +162,7 @@ export default function UserPage() {
             <Table
               rowKey="id"
               size="small"
-              scroll={{ x: 'max-content' }}
+              scroll={{ x: 'max-content', y: 'calc(100vh - 270px)' }}
               pagination={false}
               columns={columns}
               dataSource={treeData}
