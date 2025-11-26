@@ -28,7 +28,7 @@ interface DepartmentTree extends DepartmentEntity {
   children?: DepartmentTree[];
   parentId: string;
 }
-export default function UserPage() {
+export default function DepartmentPage() {
   const { data: departments, isLoading, isError, refetch } = useDepartments();
   const departmentDetailModalRef = useRef<DepartmentDetailModalRef>(null);
   const deleteModalRef = useRef<DeleteModalRef>(null);

@@ -125,6 +125,7 @@
         "permission": "Phân quyền",
         "role": "Vai trò",
         "user": "Người dùng",
+        "group": "Nhóm người dùng",
         "department": "Phòng ban",
         "user_detail": "Chi tiết người dùng"
       },

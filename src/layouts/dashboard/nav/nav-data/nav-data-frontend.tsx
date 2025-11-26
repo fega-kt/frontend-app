@@ -227,6 +227,11 @@ export const frontendNavData: NavProps['data'] = [
 
     items: [
       {
+        title: 'sys.nav.system.department',
+        path: '/management/system/department',
+        icon: <Icon icon="mingcute:department-fill" size="24" />,
+      },
+      {
         title: 'sys.nav.system.permission',
         path: '/management/system/permission',
         icon: <Icon icon="icon-park-twotone:permissions" size="24" />,
@@ -242,9 +247,9 @@ export const frontendNavData: NavProps['data'] = [
         icon: <Icon icon="local:ic-management" size="24" />,
       },
       {
-        title: 'sys.nav.system.department',
-        path: '/management/system/department',
-        icon: <Icon icon="mingcute:department-fill" size="24" />,
+        title: 'sys.nav.system.group',
+        path: '/management/system/group',
+        icon: <Icon icon="fa7-solid:people-group" size="24" />,
       },
     ],
   },

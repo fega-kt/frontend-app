@@ -125,6 +125,7 @@
         "permission": "Permission",
         "role": "Role",
         "user": "User",
+        "group": "Group",
         "user_detail": "User Detail",
         "department": "Department"
       },
