@@ -3,8 +3,9 @@ import { Icon } from '@/components/icon';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import DeleteModal, { DeleteModalRef } from '@/ui/DeleteModal';
+import { getPermissionColor } from '@/utils/tag';
 import { useQuery } from '@tanstack/react-query';
-import { Table } from 'antd';
+import { Flex, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useRef } from 'react';
 
@@ -38,6 +39,23 @@ export default function GroupPage() {
       width: 300,
       render: (_, record) => {
         return <div className="flex">{record.name}</div>;
+      },
+    },
+
+    {
+      title: 'Permissions',
+      dataIndex: 'permissions',
+      width: 320,
+      render: (permissions) => {
+        return (
+          <Flex gap="small" align="center" wrap>
+            {permissions.map((permission: string) => (
+              <Tag key={permission} color={getPermissionColor(permission)}>
+                {permission}
+              </Tag>
+            ))}
+          </Flex>
+        );
       },
     },
 
