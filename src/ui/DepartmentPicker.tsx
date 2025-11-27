@@ -81,14 +81,14 @@ export const DepartmentPicker = forwardRef<
                 <span className="text-sm">{department.name}</span>
               </HoverCardTrigger>
               <HoverCardContent side={'top'} align="center">
-                <div className="w-full max-w-lg p-4 shadow-md border rounded-md bg-white dark:bg-gray-900 ">
+                <div className="w-full max-w-lg p-4 shadow-md border rounded-md bg-card">
                   <div className="grid gap-2">
                     {/* Row 1 */}
                     <div className="grid grid-cols-[100px_1fr] items-center gap-4 border-b border-gray-200 dark:border-gray-700 pb-3">
-                      <div className="text-gray-500 dark:text-gray-400 font-medium">
+                      <div className="text-muted-foreground font-medium">
                         Tên Phòng ban
                       </div>
-                      <div className="text-gray-900 dark:text-gray-100 font-semibold">
+                      <div className="text-foreground  font-semibold">
                         {department.name}
                       </div>
                     </div>
@@ -96,7 +96,7 @@ export const DepartmentPicker = forwardRef<
                     {/* Row 2 */}
                     {department.manager ? (
                       <div className="grid grid-cols-[100px_1fr] items-center gap-4 border-b border-gray-200 dark:border-gray-700 pb-3">
-                        <div className="text-gray-500 dark:text-gray-400 font-medium">
+                        <div className="text-muted-foreground font-medium">
                           Trưởng phòng
                         </div>
                         <div className="flex items-center gap-2 min-w-0">
@@ -106,7 +106,7 @@ export const DepartmentPicker = forwardRef<
                             className="rounded-full"
                             name={department.manager?.fullName}
                           />
-                          <span className="text-gray-900 dark:text-gray-100 font-medium truncate">
+                          <span className="text-foreground font-medium truncate">
                             {department.manager?.fullName}
                           </span>
                         </div>

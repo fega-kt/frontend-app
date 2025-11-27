@@ -97,6 +97,7 @@
       "user": {
         "index": "用户",
         "profile": "个人资料",
+        "group": "用户组",
         "account": "账户"
       },
       "system": {
