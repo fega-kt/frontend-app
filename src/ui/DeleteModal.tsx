@@ -66,7 +66,7 @@ const DeleteModal = forwardRef<DeleteModalRef, DeleteModalProps>(
         toast.success('Delete success!');
         close(true);
       } catch (error) {
-        toast.error('Delete fail!');
+        toast.error('Delete action failed. Please try again.');
         console.log(error);
       } finally {
         setLoading(false);
