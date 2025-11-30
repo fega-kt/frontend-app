@@ -18,11 +18,7 @@ export const UserUI: React.FC<UserProps> = ({ user, className = '' }) => {
     <HoverCard openDelay={10}>
       <HoverCardTrigger asChild>
         <div className={cn(className, 'items-center flex gap-1 w-max')}>
-          <RenderAvatar
-            avatar={user.avatar}
-            className="h-8 w-8 rounded-full"
-            name={user.fullName}
-          />
+          <RenderAvatar user={user} className="h-8 w-8 rounded-full" />
           <div className="ml-2 flex flex-col">
             <span className="text-sm">{user.fullName}</span>
           </div>
@@ -31,11 +27,7 @@ export const UserUI: React.FC<UserProps> = ({ user, className = '' }) => {
       <HoverCardContent side={'top'} align="center">
         <div className="inline-block p-4 bg-white rounded-md shadow-md border border-gray-200 max-w-xs min-w-full ">
           <div className="flex items-center space-x-4 mb-3">
-            <RenderAvatar
-              avatar={user.avatar}
-              className="h-12 w-12 rounded-full"
-              name={user.fullName}
-            />
+            <RenderAvatar user={user} className="h-12 w-12 rounded-full" />
             <div className="text-gray-900 font-semibold text-lg">
               {user.fullName}
             </div>

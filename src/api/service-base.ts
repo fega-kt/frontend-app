@@ -15,7 +15,14 @@ import { toast } from 'sonner';
 
 export interface PaginateResult<T> {
   data: T[];
-  count: number;
+  meta: {
+    page: number;
+    take: number;
+    itemCount: number;
+    pageCount: number;
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+  };
 }
 
 const axiosInstance = axios.create({

@@ -3,16 +3,18 @@ import { Icon } from '@/components/icon';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import DeleteModal, { DeleteModalRef } from '@/ui/DeleteModal';
+import { PeoplePicker } from '@/ui/PeoplePicker';
+import { defaultPanigate } from '@/utils/const';
 import { getPermissionColor } from '@/utils/tag';
 import { useQuery } from '@tanstack/react-query';
 import { Flex, Table, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
-export const useGroups = () => {
+export const useGroups = (page: number, take: number) => {
   return useQuery({
-    queryKey: ['groups'],
-    queryFn: () => groupService.getList(),
+    queryKey: ['groups', page, take],
+    queryFn: () => groupService.getList({ page, take }),
     staleTime: 10 * 60, // dữ liệu 10s không fetch lại
     refetchOnWindowFocus: false, // tránh fetch lại khi focus window
   });
@@ -21,8 +23,12 @@ export const useGroups = () => {
 export default function GroupPage() {
   const deleteModalRef = useRef<DeleteModalRef>(null);
 
-  const { data, isLoading, isError, refetch } = useGroups();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const { data, isLoading, isError, refetch } = useGroups(page, pageSize);
   const groups = data?.data || [];
+  const meta = data?.meta || defaultPanigate;
 
   const columns: ColumnsType<GroupEntity> = [
     {
@@ -59,6 +65,20 @@ export default function GroupPage() {
       },
     },
 
+    {
+      title: 'User',
+      dataIndex: 'users',
+      width: 300,
+      render: (_, record) => {
+        return (
+          <div className="flex">
+            {(record.users || []).map((user) => (
+              <PeoplePicker size={20} value={user} disabled />
+            ))}
+          </div>
+        );
+      },
+    },
     {
       title: 'Action',
       key: 'operation',
@@ -106,18 +126,29 @@ export default function GroupPage() {
         </div>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
+        {isError ? (
           <div>Error loading groups</div>
         ) : (
           <Table
             rowKey="id"
             size="small"
-            scroll={{ x: 'max-content' }}
-            pagination={false}
+            scroll={{ x: 'max-content', y: 'calc(100vh - 270px)' }}
             columns={columns}
             dataSource={groups}
+            loading={isLoading}
+            pagination={{
+              current: meta.page,
+              pageSize: meta.take,
+              total: meta.itemCount,
+              showSizeChanger: true,
+              locale: {
+                items_per_page: '/Trang',
+              },
+              onChange: (page, pageSize) => {
+                setPage(page);
+                setPageSize(pageSize);
+              },
+            }}
           />
         )}
       </CardContent>

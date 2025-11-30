@@ -1,5 +1,5 @@
 import { APIClient } from '@/api/service-base';
-import { DepartmentEntity } from './department';
+import { DepartmentEntity } from './department.entity';
 
 export class DepartmentService extends APIClient<DepartmentEntity> {
   constructor() {

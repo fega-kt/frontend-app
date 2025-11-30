@@ -101,10 +101,9 @@ export const DepartmentPicker = forwardRef<
                         </div>
                         <div className="flex items-center gap-2 min-w-0">
                           <RenderAvatar
-                            avatar={department.manager?.avatar}
+                            user={department.manager}
                             size={28}
                             className="rounded-full"
-                            name={department.manager?.fullName}
                           />
                           <span className="text-foreground font-medium truncate">
                             {department.manager?.fullName}
@@ -122,10 +121,9 @@ export const DepartmentPicker = forwardRef<
                         </div>
                         <div className="flex items-center gap-2 min-w-0">
                           <RenderAvatar
-                            avatar={department.deputy?.avatar}
+                            user={department.deputy}
                             size={28}
                             className="rounded-full"
-                            name={department.deputy?.fullName}
                           />
                           <span className="text-gray-900 dark:text-gray-100 font-medium truncate">
                             {department.deputy?.fullName}

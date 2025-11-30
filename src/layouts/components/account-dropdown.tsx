@@ -1,6 +1,7 @@
 import { useLoginStateContext } from '@/pages/sys/login/providers/login-provider';
 import { useRouter } from '@/routes/hooks';
 import { useUserActions, useUserInfo } from '@/store/userStore';
+import { UserInfo } from '@/types/entity';
 import { Button } from '@/ui/button';
 import {
   DropdownMenu,
@@ -18,7 +19,8 @@ import { NavLink } from 'react-router';
  */
 export default function AccountDropdown() {
   const { replace } = useRouter();
-  const { firstName, lastName, email, avatar } = useUserInfo();
+  const userInfo = useUserInfo();
+  const { fullName, email } = userInfo;
   const { clearUserInfoAndToken } = useUserActions();
   const { backToLogin } = useLoginStateContext();
   const { t } = useTranslation();
@@ -38,8 +40,7 @@ export default function AccountDropdown() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
           <RenderAvatar
-            avatar={avatar}
-            name={firstName || ''}
+            user={userInfo as UserInfo}
             className="h-6 w-6 rounded-full"
           />
         </Button>
@@ -47,13 +48,12 @@ export default function AccountDropdown() {
       <DropdownMenuContent className="w-56">
         <div className="flex items-center gap-2 p-2">
           <RenderAvatar
-            avatar={avatar}
-            name={firstName || ''}
+            user={userInfo as UserInfo}
             className="h-10 w-10 rounded-full"
           />
           <div className="flex flex-col items-start">
             <div className="text-text-primary text-sm font-medium">
-              {firstName || ''} {lastName || ''}
+              {fullName}
             </div>
             <div className="text-text-secondary text-xs">{email}</div>
           </div>

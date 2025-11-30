@@ -1,19 +1,19 @@
+import { UserInfo } from '@/types/entity';
 import { cn } from '@/utils';
 import React, { useMemo } from 'react';
 
 interface AvatarProps {
-  name?: string;
-  avatar?: string;
   size?: number; // chiều rộng/cao của avatar
   className?: string;
+  user?: UserInfo;
 }
 
 export const RenderAvatar: React.FC<AvatarProps> = ({
-  name,
-  avatar,
+  user,
   size = 40,
   className,
 }) => {
+  const { id, fullName, avatar } = user || {};
   const randomColor = useMemo(() => {
     const colors = [
       '#EF4444', // red-500
@@ -24,8 +24,16 @@ export const RenderAvatar: React.FC<AvatarProps> = ({
       '#EC4899', // pink-500
       '#14B8A6', // teal-500
     ];
-    return colors[Math.floor(Math.random() * colors.length)];
-  }, []);
+    let hash = 0;
+    const str = String(id);
+
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+
+    const index = Math.abs(hash) % colors.length;
+    return colors[index];
+  }, [id]);
 
   // tạo data URL SVG fallback
   const fallbackSrc = `data:image/svg+xml;base64,${btoa(`
@@ -33,7 +41,7 @@ export const RenderAvatar: React.FC<AvatarProps> = ({
       <rect width="${size}" height="${size}" fill="${randomColor}"/>
       <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle"
             font-size="${size / 2}" fill="white" font-family="sans-serif">
-        ${name?.[0]?.toUpperCase() || '?'}
+        ${fullName?.[0]?.toUpperCase() || '?'}
       </text>
     </svg>
   `)}`;
@@ -45,7 +53,7 @@ export const RenderAvatar: React.FC<AvatarProps> = ({
     >
       <img
         src={avatar || fallbackSrc}
-        alt={name || 'Avatar'}
+        alt={fullName || 'Avatar'}
         className="w-full h-full object-cover"
         onError={(e) => {
           e.currentTarget.src = fallbackSrc;
