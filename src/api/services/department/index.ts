@@ -1,1 +1,1 @@
-export * from './department.ts';
+export * from './department.entity.ts';

@@ -54,9 +54,8 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
           <HoverCardTrigger asChild>
             <div className={cn(className, 'items-center flex gap-1 w-max')}>
               <RenderAvatar
-                avatar={data.avatar}
+                user={data}
                 className="h-8 w-8 rounded-full"
-                name={data.fullName}
                 size={size}
               />
               <div className="ml-2 flex flex-col">
@@ -68,10 +67,9 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
             <div className="inline-block p-4 bg-white dark:bg-gray-900 rounded-md shadow-md border max-w-xs min-w-full ">
               <div className="flex items-center space-x-4 mb-3">
                 <RenderAvatar
-                  avatar={data.avatar}
                   size={size}
                   className="rounded-full"
-                  name={data.fullName}
+                  user={data}
                 />
                 <div className="text-gray-500 dark:text-gray-400font-semibold text-lg">
                   {data.fullName}

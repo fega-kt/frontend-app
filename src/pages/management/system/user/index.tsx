@@ -35,11 +35,7 @@ export default function UserPage() {
       render: (_, record) => {
         return (
           <div className="flex">
-            <RenderAvatar
-              avatar={record.avatar}
-              className="h-10 w-10 rounded-full"
-              name={record.lastName}
-            />
+            <RenderAvatar user={record} className="h-10 w-10 rounded-full" />
             <div className="ml-2 flex flex-col">
               <span className="text-sm">
                 {record.firstName || ''} {record.lastName || ''}
@@ -130,7 +126,7 @@ export default function UserPage() {
           <Table
             rowKey="id"
             size="small"
-            scroll={{ x: 'max-content' }}
+            scroll={{ x: 'max-content', y: 'calc(100vh - 270px)' }}
             pagination={false}
             columns={columns}
             dataSource={users}
