@@ -1,13 +1,14 @@
 import { GroupEntity, groupService } from '@/api/services/group';
 import { Icon } from '@/components/icon';
+import { AdvancedTable } from '@/ui/AdvancedTable';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import DeleteModal, { DeleteModalRef } from '@/ui/DeleteModal';
 import { PeoplePicker } from '@/ui/PeoplePicker';
-import { defaultPanigate } from '@/utils/const';
+import { defaultMetaPanigate } from '@/utils/const';
 import { getPermissionColor } from '@/utils/tag';
 import { useQuery } from '@tanstack/react-query';
-import { Flex, Table, Tag } from 'antd';
+import { Flex, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useRef, useState } from 'react';
 
@@ -23,12 +24,12 @@ export const useGroups = (page: number, take: number) => {
 export default function GroupPage() {
   const deleteModalRef = useRef<DeleteModalRef>(null);
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(defaultMetaPanigate.page);
+  const [pageSize, setPageSize] = useState(defaultMetaPanigate.take);
 
   const { data, isLoading, isError, refetch } = useGroups(page, pageSize);
   const groups = data?.data || [];
-  const meta = data?.meta || defaultPanigate;
+  const meta = data?.meta;
 
   const columns: ColumnsType<GroupEntity> = [
     {
@@ -126,31 +127,17 @@ export default function GroupPage() {
         </div>
       </CardHeader>
       <CardContent>
-        {isError ? (
-          <div>Error loading groups</div>
-        ) : (
-          <Table
-            rowKey="id"
-            size="small"
-            scroll={{ x: 'max-content', y: 'calc(100vh - 270px)' }}
-            columns={columns}
-            dataSource={groups}
-            loading={isLoading}
-            pagination={{
-              current: meta.page,
-              pageSize: meta.take,
-              total: meta.itemCount,
-              showSizeChanger: true,
-              locale: {
-                items_per_page: '/Trang',
-              },
-              onChange: (page, pageSize) => {
-                setPage(page);
-                setPageSize(pageSize);
-              },
-            }}
-          />
-        )}
+        <AdvancedTable
+          columns={columns}
+          dataSource={groups}
+          isError={isError}
+          isLoading={isLoading}
+          meta={meta}
+          onChange={(page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }}
+        />
       </CardContent>
 
       <DeleteModal ref={deleteModalRef} service={groupService} />
