@@ -1,6 +1,6 @@
-export const defaultPanigate = {
-  page: 0,
-  take: 0,
+export const defaultMetaPanigate = {
+  page: 1,
+  take: 10,
   itemCount: 0,
   pageCount: 0,
   hasPreviousPage: false,

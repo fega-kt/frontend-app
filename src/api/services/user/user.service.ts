@@ -9,11 +9,8 @@ export class UserService extends APIClient<UserInfo> {
     });
   }
 
-  getList() {
-    return this.getPaginate<UserItemList>(undefined, {
-      page: 1,
-      take: 10,
-    });
+  getList(data: { page: number; take: number }) {
+    return this.getPaginate<UserItemList>(undefined, data);
   }
 
   updateUser(id: string, data: unknown, file?: File) {

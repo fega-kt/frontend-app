@@ -13,16 +13,17 @@ import axios, {
 import { Dictionary } from 'lodash';
 import { toast } from 'sonner';
 
+export interface IMetaPanigation {
+  page: number;
+  take: number;
+  itemCount: number;
+  pageCount: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+}
 export interface PaginateResult<T> {
   data: T[];
-  meta: {
-    page: number;
-    take: number;
-    itemCount: number;
-    pageCount: number;
-    hasPreviousPage: boolean;
-    hasNextPage: boolean;
-  };
+  meta: IMetaPanigation;
 }
 
 const axiosInstance = axios.create({

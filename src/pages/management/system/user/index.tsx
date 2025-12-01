@@ -3,19 +3,21 @@ import { UserItemList } from '@/api/services/user';
 import { userService } from '@/api/services/user/user.service';
 import { Icon } from '@/components/icon';
 import { usePathname, useRouter } from '@/routes/hooks';
+import { AdvancedTable } from '@/ui/AdvancedTable';
 import { Badge } from '@/ui/badge';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import { DepartmentPicker } from '@/ui/DepartmentPicker';
 import { RenderAvatar } from '@/ui/render-avatar';
+import { defaultMetaPanigate } from '@/utils/const';
 import { useQuery } from '@tanstack/react-query';
-import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
+import { useState } from 'react';
 
-export const useUsers = () => {
+export const useUsers = (page: number, take: number) => {
   return useQuery({
-    queryKey: ['users'],
-    queryFn: () => userService.getList(),
+    queryKey: ['users', page, take],
+    queryFn: () => userService.getList({ page, take }),
     staleTime: 10 * 60, // dữ liệu 10s không fetch lại
     refetchOnWindowFocus: false, // tránh fetch lại khi focus window
   });
@@ -24,8 +26,13 @@ export const useUsers = () => {
 export default function UserPage() {
   const { push } = useRouter();
   const pathname = usePathname();
-  const { data, isLoading, isError } = useUsers();
+
+  const [page, setPage] = useState(defaultMetaPanigate.page);
+  const [pageSize, setPageSize] = useState(defaultMetaPanigate.take);
+
+  const { data, isLoading, isError } = useUsers(page, pageSize);
   const users = data?.data || [];
+  const meta = data?.meta;
 
   const columns: ColumnsType<UserItemList> = [
     {
@@ -118,20 +125,17 @@ export default function UserPage() {
         </div>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
-          <div>Loading...</div>
-        ) : isError ? (
-          <div>Error loading users</div>
-        ) : (
-          <Table
-            rowKey="id"
-            size="small"
-            scroll={{ x: 'max-content', y: 'calc(100vh - 270px)' }}
-            pagination={false}
-            columns={columns}
-            dataSource={users}
-          />
-        )}
+        <AdvancedTable
+          columns={columns}
+          dataSource={users}
+          isError={isError}
+          isLoading={isLoading}
+          meta={meta}
+          onChange={(page, pageSize) => {
+            setPage(page);
+            setPageSize(pageSize);
+          }}
+        />
       </CardContent>
     </Card>
   );

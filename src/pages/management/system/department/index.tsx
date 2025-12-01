@@ -7,11 +7,11 @@ import { Card, CardContent, CardHeader } from '@/ui/card';
 import { PeoplePicker } from '@/ui/PeoplePicker';
 import { convertFlatToTree } from '@/utils/tree';
 import { useQuery } from '@tanstack/react-query';
-import { Table } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useMemo, useRef } from 'react';
 import DepartmentDetailModal, { DepartmentDetailModalRef } from './detail';
 
+import { AdvancedTable } from '@/ui/AdvancedTable';
 import DeleteModal, { DeleteModalRef } from '@/ui/DeleteModal';
 import { cn } from '@/utils';
 import style from './department.module.scss';
@@ -154,36 +154,29 @@ export default function DepartmentPage() {
           </div>
         </CardHeader>
         <CardContent className={style.customDepartmentList}>
-          {isLoading ? (
-            <div>Loading...</div>
-          ) : isError ? (
-            <div>Error loading organizational structure</div>
-          ) : (
-            <Table
-              rowKey="id"
-              size="small"
-              scroll={{ x: 'max-content', y: 'calc(100vh - 270px)' }}
-              pagination={false}
-              columns={columns}
-              dataSource={treeData}
-              expandable={{
-                defaultExpandAllRows: true,
-                expandIcon: ({ expanded, onExpand, record }) => (
-                  <span
-                    className={cn(
-                      `align-middle cursor-pointer flex items-center justify-center`,
-                      record.children?.length ? 'visible' : 'invisible'
-                    )}
-                    onClick={(e) => {
-                      onExpand(record, e);
-                    }}
-                  >
-                    {expanded ? iconExpanded : iconCollapsed}
-                  </span>
-                ),
-              }}
-            />
-          )}
+          <AdvancedTable
+            columns={columns}
+            dataSource={treeData}
+            isError={isError}
+            isLoading={isLoading}
+            pagination={false}
+            expandable={{
+              defaultExpandAllRows: true,
+              expandIcon: ({ expanded, onExpand, record }) => (
+                <span
+                  className={cn(
+                    `align-middle cursor-pointer flex items-center justify-center`,
+                    record.children?.length ? 'visible' : 'invisible'
+                  )}
+                  onClick={(e) => {
+                    onExpand(record, e);
+                  }}
+                >
+                  {expanded ? iconExpanded : iconCollapsed}
+                </span>
+              ),
+            }}
+          />
         </CardContent>
       </Card>
 
