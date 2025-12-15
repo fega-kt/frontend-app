@@ -39,10 +39,7 @@ export default function AccountDropdown() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <RenderAvatar
-            user={userInfo as UserInfo}
-            className="h-6 w-6 rounded-full"
-          />
+          <RenderAvatar user={userInfo as UserInfo} size={30} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
