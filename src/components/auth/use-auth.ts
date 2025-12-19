@@ -1,4 +1,5 @@
 import { useUserInfo, useUserToken } from '@/store/userStore';
+import { RoleType } from '@/types/entity';
 
 /**
  * permission/role check hook
@@ -18,12 +19,13 @@ import { useUserInfo, useUserToken } from '@/store/userStore';
  * checkAny(['admin', 'editor'])
  * checkAll(['admin', 'editor'])
  */
-export const useAuthCheck = (baseOn: 'role' | 'permission' = 'permission') => {
+export const useAuthCheck = () => {
   const { accessToken } = useUserToken();
-  const { permissions = [], roles = [] } = useUserInfo();
+  const { permissions = [], role } = useUserInfo();
 
+  const isAdmin = role === RoleType.ADMIN;
   // depends on baseOn to select resource pool
-  const resourcePool = baseOn === 'role' ? roles : permissions;
+  const resourcePool = permissions;
 
   // check if item exists
   const check = (item: string): boolean => {
@@ -31,7 +33,7 @@ export const useAuthCheck = (baseOn: 'role' | 'permission' = 'permission') => {
     if (!accessToken) {
       return false;
     }
-    return resourcePool.some((p) => p.code === item);
+    return resourcePool.some((p) => p === item);
   };
 
   // check if any item exists
@@ -50,5 +52,5 @@ export const useAuthCheck = (baseOn: 'role' | 'permission' = 'permission') => {
     return items.every((item) => check(item));
   };
 
-  return { check, checkAny, checkAll };
+  return { check, checkAny, checkAll, isAdmin };
 };

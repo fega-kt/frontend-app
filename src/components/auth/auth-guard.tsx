@@ -62,9 +62,8 @@ export const AuthGuard = ({
   check,
   checkAny,
   checkAll,
-  baseOn = 'permission',
 }: AuthGuardProps) => {
-  const checkFn = useAuthCheck(baseOn);
+  const checkFn = useAuthCheck();
 
   const hasAccess = check
     ? checkFn.check(check)
