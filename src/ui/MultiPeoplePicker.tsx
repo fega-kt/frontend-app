@@ -9,21 +9,21 @@ import { RenderUser } from './RenderUser';
 interface PeoplePickerProps
   extends Omit<
     SelectProps<string>,
-    'options' | 'onChange' | 'value' | 'size' | 'mode'
+    'options' | 'onChange' | 'value' | 'size' | 'mode' | 'defaultValue'
   > {
   className?: string;
   classNameTrigger?: string;
   disabled?: boolean;
   size?: number;
-  value?: UserInfo;
-  onChange?: (value?: UserInfo) => void;
+  value?: UserInfo[];
+  onChange?: (value?: UserInfo[]) => void;
 }
 
-export const PeoplePicker: React.FC<PeoplePickerProps> = ({
+export const MultiPeoplePicker: React.FC<PeoplePickerProps> = ({
   className = '',
   disabled,
-  value,
-  size = 24,
+  value = [],
+  size = 22,
   onChange,
   ...rest
 }) => {
@@ -49,29 +49,32 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
   }, []);
 
   if (disabled) {
-    return <RenderUser size={size} users={compact([value])} />;
+    return <RenderUser size={size} users={compact([...(value || [])])} />;
   }
 
   return (
     <div className={cn(className, 'items-center')}>
       <Select
-        placeholder="Inserted are removed"
+        placeholder="Please select user(s)"
         className="rounded-md"
+        mode="multiple"
         loading={loading}
         showSearch
         notFoundContent={loading ? <span>Đang tải...</span> : null}
         onFocus={handleOnFocus}
-        value={value?.id}
+        value={value.map((u) => u.id)}
         disabled={disabled}
-        onChange={(selected: string) => {
-          const selectedUser = users.find((u) => u.id === selected);
-          onChange?.(selectedUser);
+        onChange={(ids: string[]) => {
+          const selectedUsers = users.filter((u) => ids.includes(u.id));
+          onChange?.(selectedUsers);
         }}
         style={{ width: '100%' }}
-        options={uniqBy(compact([value, ...users]), 'id').map((user) => ({
-          value: user.id,
-          label: <RenderUser size={size} users={compact([user])} />,
-        }))}
+        options={uniqBy(compact([...(value || []), ...users]), 'id').map(
+          (user) => ({
+            value: user.id,
+            label: <RenderUser size={size} users={compact([user])} />,
+          })
+        )}
         {...rest}
       />
     </div>

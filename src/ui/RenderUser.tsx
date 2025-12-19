@@ -21,7 +21,9 @@ export const RenderUser: React.FC<PeoplePickerProps> = ({
       return (
         <HoverCard openDelay={10}>
           <HoverCardTrigger asChild>
-            <div className={cn(className, 'items-center flex gap-1 w-max')}>
+            <div
+              className={cn(className, 'items-center flex gap-1 min-w-[120px]')}
+            >
               <RenderAvatar
                 user={data}
                 className="h-8 w-8 rounded-full"
@@ -73,14 +75,14 @@ export const RenderUser: React.FC<PeoplePickerProps> = ({
   );
 
   return (
-    <div className={cn(className, 'items-center')}>
+    <>
       {users && Array.isArray(users) && users.length ? (
-        <div className="flex gap-3">
+        <div className={cn(className, 'items-center flex flex-wrap gap-3')}>
           {users.map((user) => renderUser(user))}
         </div>
       ) : (
         ''
       )}
-    </div>
+    </>
   );
 };
