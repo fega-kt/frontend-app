@@ -1,5 +1,6 @@
 import { GroupEntity, groupService } from '@/api/services/group';
 import { Icon } from '@/components/icon';
+import { useRefresh } from '@/hooks/use-refresh-page';
 import { AdvancedTable } from '@/ui/AdvancedTable';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
@@ -11,6 +12,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Flex, Tag } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useCallback, useRef, useState } from 'react';
+import GroupDetailModal, { GroupDetailModalRef } from './detail';
 
 export const useGroups = (page: number, take: number) => {
   return useQuery({
@@ -23,6 +25,7 @@ export const useGroups = (page: number, take: number) => {
 
 export default function GroupPage() {
   const deleteModalRef = useRef<DeleteModalRef>(null);
+  const groupDetailModalRef = useRef<GroupDetailModalRef>(null);
 
   const [page, setPage] = useState(defaultMetaPanigate.page);
   const [pageSize, setPageSize] = useState(defaultMetaPanigate.take);
@@ -30,6 +33,16 @@ export default function GroupPage() {
   const { data, isLoading, isError, refetch } = useGroups(page, pageSize);
   const groups = data?.data || [];
   const meta = data?.meta;
+
+  useRefresh({
+    page,
+    pageSize,
+    currentPageItemCount: groups.length,
+    total: meta?.itemCount,
+    isLoading: isLoading,
+    setPage,
+    refetch,
+  });
 
   const columns: ColumnsType<GroupEntity> = [
     {
@@ -88,7 +101,13 @@ export default function GroupPage() {
       fixed: 'right',
       render: (_, record) => (
         <div className="flex w-full justify-center text-gray-500">
-          <Button variant="ghost" size="icon" onClick={() => {}}>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => {
+              handleAction(record.id);
+            }}
+          >
             <Icon icon="solar:pen-bold-duotone" size={18} />
           </Button>
           <Button
@@ -118,12 +137,29 @@ export default function GroupPage() {
     },
     [refetch]
   );
+
+  const handleAction = useCallback(
+    async (id?: string) => {
+      const res = await groupDetailModalRef.current?.open(id);
+      if (res?.hasChange) {
+        refetch();
+      }
+    },
+    [refetch]
+  );
+
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>Group List</div>
-          <Button onClick={() => {}}>New</Button>
+          <Button
+            onClick={() => {
+              handleAction();
+            }}
+          >
+            New
+          </Button>
         </div>
       </CardHeader>
       <CardContent>
@@ -141,6 +177,7 @@ export default function GroupPage() {
       </CardContent>
 
       <DeleteModal ref={deleteModalRef} service={groupService} />
+      <GroupDetailModal ref={groupDetailModalRef} />
     </Card>
   );
 }
