@@ -5,7 +5,7 @@ import { AdvancedTable } from '@/ui/AdvancedTable';
 import { Button } from '@/ui/button';
 import { Card, CardContent, CardHeader } from '@/ui/card';
 import DeleteModal, { DeleteModalRef } from '@/ui/DeleteModal';
-import { PeoplePicker } from '@/ui/PeoplePicker';
+import { MultiPeoplePicker } from '@/ui/MultiPeoplePicker';
 import { defaultMetaPanigate } from '@/utils/const';
 import { getPermissionColor } from '@/utils/tag';
 import { useQuery } from '@tanstack/react-query';
@@ -84,13 +84,7 @@ export default function GroupPage() {
       dataIndex: 'users',
       width: 300,
       render: (_, record) => {
-        return (
-          <div className="flex">
-            {(record.users || []).map((user) => (
-              <PeoplePicker size={20} value={user} disabled />
-            ))}
-          </div>
-        );
+        return <MultiPeoplePicker size={20} value={record.users} disabled />;
       },
     },
     {

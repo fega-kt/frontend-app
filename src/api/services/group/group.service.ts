@@ -12,7 +12,7 @@ export class GroupService extends APIClient<GroupEntity> {
   constructor() {
     super({
       endpoint: 'groups',
-      populateKeys: ['permissions'],
+      populateKeys: ['permissions', 'users'],
     });
   }
 

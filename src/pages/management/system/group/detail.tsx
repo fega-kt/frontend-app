@@ -4,6 +4,7 @@ import { Button } from '@/ui/button';
 import { DialogFooter } from '@/ui/dialog';
 import { InputText } from '@/ui/InputText';
 import ModalWrapper, { ModalWrapperRef } from '@/ui/ModalWrapper';
+import { MultiPeoplePicker } from '@/ui/MultiPeoplePicker';
 import SelectItem from '@/ui/SelectItem';
 import { Col, Form, Spin } from 'antd';
 import { useForm } from 'antd/es/form/Form';
@@ -56,7 +57,7 @@ const GroupDetailModal = forwardRef<GroupDetailModalRef, GroupDetailModalProps>(
             setLoading(true);
             const group = await groupService.getById(id);
 
-            const value = pick(group, ['code', 'name', 'permissions']);
+            const value = pick(group, ['code', 'name', 'permissions', 'users']);
             form.setFieldsValue({
               ...value,
               permissions: (value.permissions || []).map((permission) => ({
@@ -138,7 +139,9 @@ const GroupDetailModal = forwardRef<GroupDetailModalRef, GroupDetailModalProps>(
               >
                 <InputText />
               </Form.Item>
-
+              <Form.Item label={'Users'} name="users">
+                <MultiPeoplePicker />
+              </Form.Item>
               <Form.Item label={'Permissions'} name="permissions">
                 <SelectItem
                   dataSource={Object.values(Permission).map((permission) => ({
