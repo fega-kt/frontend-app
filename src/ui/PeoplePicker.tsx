@@ -35,7 +35,7 @@ export const PeoplePicker: React.FC<PeoplePickerProps> = ({
     }
     try {
       setLoading(true);
-      const { data } = await userService.getList();
+      const { data } = await userService.getList({ page: 10, take: 10 });
       setUsers(data);
       isLoaded.current = true;
     } catch (error) {

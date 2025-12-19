@@ -163,27 +163,34 @@ interface RequestOptions {
 
 export class APIClient<T = unknown> {
   protected endpoint: string;
-  protected populateKeys?: string[];
+  protected populateKeys: string[];
 
   constructor(options: APIClientOptions) {
     this.endpoint = options.endpoint;
-    this.populateKeys = options.populateKeys;
+    this.populateKeys = options.populateKeys || [];
   }
 
   normalized<Entity>(entity: any, populateKeys: (keyof Entity)[]) {
+    if (entity instanceof FormData) {
+      return entity;
+    }
+
     const processedEntity: Dictionary<any> = {};
+
     Object.keys(entity).forEach((key) => {
       let value = (entity as Dictionary<any>)[key];
-      // những property mà được khai báo là populate thì sẽ được convert thành id khi upload lên server
-      if (value && (populateKeys || []).includes(key as keyof Entity)) {
+
+      if (value && populateKeys.includes(key as keyof Entity)) {
         if (Array.isArray(value)) {
-          value = value.map((v) => (typeof v === 'object' && v.id ? v.id : v));
+          value = value.map((v) => (typeof v === 'object' && v?.id ? v.id : v));
         } else if (typeof value === 'object') {
-          value = value.id ? value.id : value;
+          value = value?.id ?? value;
         }
       }
+
       processedEntity[key] = value;
     });
+
     return processedEntity;
   }
 
@@ -198,7 +205,6 @@ export class APIClient<T = unknown> {
         : this.endpoint,
       params: {
         ...params,
-        ...(this.populateKeys?.length ? { populate: this.populateKeys } : {}),
       },
     });
   }
@@ -209,7 +215,6 @@ export class APIClient<T = unknown> {
       url: this.endpoint,
       params: {
         ...params,
-        ...(this.populateKeys?.length ? { populate: this.populateKeys } : {}),
       },
     });
   }
@@ -231,19 +236,19 @@ export class APIClient<T = unknown> {
       url: options?.endpoint
         ? `${this.endpoint}/${options.endpoint}`
         : this.endpoint,
-      data,
+      data: this.normalized(data, this.populateKeys),
     });
   }
 
   put<R = T>(
     id: string | number,
-    data: Partial<T> | FormData,
+    data: Partial<T> | FormData | unknown,
     config?: Record<string, unknown>
   ): Promise<R> {
     return this.request<R>({
       method: 'PUT',
       url: `${this.endpoint}/${id}`,
-      data,
+      data: this.normalized(data, this.populateKeys),
       ...(config || {}),
     });
   }
@@ -262,10 +267,8 @@ export class APIClient<T = unknown> {
     return this.request<PaginateResult<R>>({
       method: 'POST',
       url: [this.endpoint, endpointCustom].filter(Boolean).join('/'),
-      data,
-      params: {
-        ...(this.populateKeys?.length ? { populate: this.populateKeys } : {}),
-      },
+      data: this.normalized(data, this.populateKeys),
+      params: {},
     });
   }
 
@@ -278,7 +281,6 @@ export class APIClient<T = unknown> {
       url: [this.endpoint, endpointCustom].filter(Boolean).join('/'),
       params: {
         ...params,
-        ...(this.populateKeys?.length ? { populate: this.populateKeys } : {}),
       },
     });
   }
