@@ -1,7 +1,8 @@
 import { EntityBase } from '@/api/entity-base';
+import { DepartmentEntity } from '@/api/services/department';
+import { Permission } from '@/api/services/group';
 import type { NavItemDataProps } from '@/components/nav/types';
 import type { BasicStatus, PermissionType } from './enum';
-import { DepartmentEntity } from '@/api/services/department';
 
 export interface UserToken {
   accessToken?: string;
@@ -14,9 +15,8 @@ export interface UserInfo extends EntityBase {
   firstName?: string;
   lastName?: string;
   fullName?: string;
-  password?: string;
   avatar?: string;
-  roles?: Role[];
+  roles?: Role[]; // sẽ bỏ
   status?: BasicStatus;
   permissions?: Permission[];
   menu?: MenuTree[];
@@ -76,12 +76,6 @@ export interface Role extends CommonOptions {
   id: string; // uuid
   name: string;
   code: string;
-}
-
-export interface Permission extends CommonOptions {
-  id: string; // uuid
-  name: string;
-  code: string; // resource:action  example: "user-management:read"
 }
 
 export interface Menu extends CommonOptions, MenuMetaInfo {

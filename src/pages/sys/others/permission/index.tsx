@@ -87,13 +87,13 @@ checkAll(["permission:read", "permission:create"]) ? (
 `;
 
 export default function PermissionPage() {
-  const { permissions, roles, username } = useUserInfo();
+  const { permissions, roles, email } = useUserInfo();
   const signIn = useSignIn();
   const { check, checkAny, checkAll } = useAuthCheck();
 
-  const handleSwitch = (_username: string) => {
-    if (_username === username) return;
-    const user = DB_USER.find((user) => user.username === _username);
+  const handleSwitch = (_email: string) => {
+    if (_email === email) return;
+    const user = DB_USER.find((user) => user.username === _email);
     if (user) {
       signIn({ email: user.email, password: user.password });
     }
@@ -102,7 +102,7 @@ export default function PermissionPage() {
     <div className="flex flex-col gap-4">
       <div className="w-full flex  items-center justify-center">
         <Text variant="subTitle1">当前用户：</Text>
-        <Tabs defaultValue={username} onValueChange={handleSwitch}>
+        <Tabs defaultValue={email} onValueChange={handleSwitch}>
           <TabsList>
             {DB_USER.map((user) => (
               <TabsTrigger key={user.username} value={user.username}>
@@ -127,9 +127,7 @@ export default function PermissionPage() {
           <div className="flex items-center gap-2">
             <Text variant="body1">当前用户权限：</Text>
             {permissions && permissions.length > 0 ? (
-              <Text variant="body1">
-                [{permissions?.map((permission) => permission.code).join(', ')}]
-              </Text>
+              <Text variant="body1">[{(permissions || []).join(', ')}]</Text>
             ) : (
               <Text variant="body1">[]</Text>
             )}
@@ -167,7 +165,6 @@ export default function PermissionPage() {
             >
               <AuthGuard
                 check="permission:delete"
-                baseOn="permission"
                 fallback={
                   <Text variant="body1" color="error">
                     没有<Text variant="code">permission:delete</Text>权限
@@ -188,7 +185,6 @@ export default function PermissionPage() {
             >
               <AuthGuard
                 checkAny={['permission:update', 'permission:delete']}
-                baseOn="permission"
                 fallback={
                   <Text variant="body1" color="error">
                     没有<Text variant="code">permission:update</Text>或
@@ -210,7 +206,6 @@ export default function PermissionPage() {
             >
               <AuthGuard
                 checkAll={['permission:read', 'permission:create']}
-                baseOn="permission"
                 fallback={
                   <Text variant="body1" color="error">
                     没有<Text variant="code">permission:read</Text>和
